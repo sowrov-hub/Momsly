@@ -1,0 +1,1344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Momsly — Your Everyday Parenting Toolkit</title>
+<meta name="description" content="Personalized parenting tools that help busy parents make confident everyday decisions — from newborn sleep schedules to toddler routines, budgeting, and more. Free 7-day trial.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --primary:#F472B6;
+    --secondary:#EC4899;
+    --accent:#A78BFA;
+    --bg:#FFFFFF;
+    --card:#FFF7FA;
+    --text:#1F2937;
+    --subtext:#6B7280;
+    --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+    --gradient-soft: linear-gradient(135deg, rgba(244,114,182,0.12), rgba(167,139,250,0.12));
+    --shadow-sm: 0 4px 16px rgba(236,72,153,0.08);
+    --shadow-md: 0 12px 32px rgba(236,72,153,0.14);
+    --shadow-lg: 0 24px 60px rgba(167,139,250,0.18);
+    --radius: 24px;
+    --radius-sm: 14px;
+    --ff-display: 'Fraunces', serif;
+    --ff-body: 'Plus Jakarta Sans', sans-serif;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:var(--ff-body);
+    color:var(--text);
+    background:var(--bg);
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  img,svg{display:block;max-width:100%;}
+  a{color:inherit;text-decoration:none;}
+  ul{list-style:none;}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;}
+  h1,h2,h3,h4{font-family:var(--ff-display);font-weight:600;line-height:1.15;letter-spacing:-0.01em;}
+  .container{max-width:1180px;margin:0 auto;padding:0 24px;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--secondary);
+    background:rgba(244,114,182,0.1);
+    padding:8px 16px;border-radius:999px;
+  }
+  section{position:relative;}
+  .section-pad{padding:96px 0;}
+  @media(max-width:768px){.section-pad{padding:64px 0;}}
+
+  .subtext{color:var(--subtext);font-size:17px;line-height:1.7;}
+
+  /* ---------- Buttons ---------- */
+  .btn{
+    position:relative;overflow:hidden;
+    display:inline-flex;align-items:center;justify-content:center;gap:10px;
+    padding:16px 30px;border-radius:999px;font-weight:700;font-size:16px;
+    transition:transform .3s cubic-bezier(.2,.9,.3,1.3), box-shadow .3s ease;
+    white-space:nowrap;
+  }
+  .btn:active{transform:scale(.97);}
+  .btn-primary{
+    background:var(--gradient);
+    color:#fff;
+    box-shadow:0 10px 24px rgba(236,72,153,0.35);
+  }
+  .btn-primary:hover{transform:translateY(-3px);box-shadow:0 16px 32px rgba(236,72,153,0.42);}
+  .btn-ghost{
+    background:#fff;
+    color:var(--secondary);
+    border:1.5px solid rgba(236,72,153,0.25);
+  }
+  .btn-ghost:hover{transform:translateY(-3px);border-color:var(--secondary);box-shadow:var(--shadow-sm);}
+  .ripple{
+    position:absolute;border-radius:50%;
+    background:rgba(255,255,255,0.55);
+    transform:scale(0);
+    animation:ripple .6s ease-out forwards;
+    pointer-events:none;
+  }
+  @keyframes ripple{ to{ transform:scale(3); opacity:0; } }
+
+  /* ---------- Nav ---------- */
+  .nav{
+    position:sticky;top:0;z-index:100;
+    background:rgba(255,255,255,0.75);
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid rgba(236,72,153,0.08);
+  }
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;max-width:1180px;margin:0 auto;}
+  .logo{display:flex;align-items:center;gap:10px;font-family:var(--ff-display);font-weight:700;font-size:22px;color:var(--text);}
+  .logo .dot{width:12px;height:12px;border-radius:50%;background:var(--gradient);}
+  .nav-links{display:flex;gap:32px;font-weight:600;font-size:15px;color:var(--subtext);}
+  .nav-links a{transition:color .2s;}
+  .nav-links a:hover{color:var(--secondary);}
+  .nav-cta{display:flex;align-items:center;gap:14px;}
+  .nav .btn{padding:12px 22px;font-size:14px;}
+  @media(max-width:860px){ .nav-links{display:none;} }
+
+  /* ---------- Floating background ---------- */
+  .float-layer{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+  .float-item{position:absolute;opacity:.5;animation:drift 14s ease-in-out infinite;}
+  @keyframes drift{
+    0%{transform:translate(0,0) rotate(0deg);}
+    50%{transform:translate(14px,-22px) rotate(8deg);}
+    100%{transform:translate(0,0) rotate(0deg);}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .float-item, .orbit-item, .phone-glow{animation:none !important;}
+    html{scroll-behavior:auto;}
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{padding:72px 0 40px;position:relative;z-index:1;}
+  .hero-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:56px;align-items:center;}
+  @media(max-width:960px){ .hero-grid{grid-template-columns:1fr;text-align:center;} }
+
+  .hero h1{font-size:clamp(36px,5.6vw,60px);margin:20px 0 22px;}
+  .hero h1 .accent-word{
+    background:var(--gradient);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .hero .subtext{font-size:19px;max-width:520px;}
+  @media(max-width:960px){ .hero .subtext{margin:0 auto;} }
+  .hero-ctas{display:flex;gap:16px;margin-top:34px;flex-wrap:wrap;}
+  @media(max-width:960px){ .hero-ctas{justify-content:center;} }
+
+  .hero-visual{position:relative;display:flex;justify-content:center;align-items:center;min-height:520px;}
+  .orbit-wrap{position:relative;width:340px;height:480px;}
+  .phone-glow{
+    position:absolute;inset:-40px;
+    background:radial-gradient(closest-side, rgba(167,139,250,0.35), rgba(244,114,182,0.18) 60%, transparent 75%);
+    filter:blur(6px);
+    animation:pulseGlow 6s ease-in-out infinite;
+    border-radius:50%;
+  }
+  @keyframes pulseGlow{ 0%,100%{opacity:.7;transform:scale(1);} 50%{opacity:1;transform:scale(1.06);} }
+
+  .phone{
+    position:relative;width:280px;height:480px;margin:0 auto;
+    background:#1F2937;
+    border-radius:44px;
+    padding:12px;
+    box-shadow:var(--shadow-lg), 0 2px 0 rgba(255,255,255,0.4) inset;
+    z-index:2;
+  }
+  .phone-notch{
+    position:absolute;top:12px;left:50%;transform:translateX(-50%);
+    width:90px;height:20px;background:#1F2937;border-radius:0 0 14px 14px;z-index:3;
+  }
+  .phone-screen{
+    position:relative;width:100%;height:100%;
+    background:linear-gradient(160deg,#FFF7FA 0%,#FFFFFF 60%);
+    border-radius:34px;overflow:hidden;
+  }
+  .screen-slide{
+    position:absolute;inset:0;padding:34px 20px 20px;
+    display:flex;flex-direction:column;gap:14px;
+    opacity:0;transform:translateY(14px) scale(.98);
+    transition:opacity .6s ease, transform .6s ease;
+  }
+  .screen-slide.active{opacity:1;transform:translateY(0) scale(1);z-index:2;}
+  .screen-tag{
+    align-self:flex-start;font-size:11px;font-weight:700;letter-spacing:.05em;
+    text-transform:uppercase;color:var(--secondary);
+    background:rgba(244,114,182,0.12);padding:5px 12px;border-radius:999px;
+  }
+  .screen-title{font-family:var(--ff-display);font-size:20px;font-weight:600;margin-top:4px;}
+  .screen-icon-wrap{
+    width:56px;height:56px;border-radius:16px;background:var(--gradient);
+    display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-sm);
+  }
+  .screen-icon-wrap svg{width:28px;height:28px;stroke:#fff;}
+  .screen-bar{height:10px;border-radius:6px;background:rgba(167,139,250,0.18);}
+  .screen-bar.w60{width:60%;} .screen-bar.w80{width:80%;} .screen-bar.w40{width:40%;}
+  .screen-card{
+    background:#fff;border-radius:14px;padding:12px 14px;box-shadow:var(--shadow-sm);
+    display:flex;align-items:center;gap:10px;
+  }
+  .screen-card svg{width:20px;height:20px;stroke:var(--secondary);flex-shrink:0;}
+  .phone-dots{display:flex;gap:6px;justify-content:center;margin-top:16px;}
+  .phone-dot{width:6px;height:6px;border-radius:50%;background:rgba(31,41,55,0.15);transition:all .3s;}
+  .phone-dot.active{background:var(--secondary);width:20px;border-radius:4px;}
+
+  .orbit-item{position:absolute;animation:orbitFloat 8s ease-in-out infinite;}
+  @keyframes orbitFloat{ 0%,100%{transform:translateY(0);} 50%{transform:translateY(-16px);} }
+
+  /* ---------- Trusted section ---------- */
+  .trusted{background:var(--card);}
+  .trusted-inner{text-align:center;max-width:760px;margin:0 auto;}
+  .trust-badge-lg{
+    display:inline-flex;align-items:center;gap:10px;
+    font-family:var(--ff-display);font-size:22px;font-weight:600;
+    padding:14px 28px;border-radius:999px;background:#fff;box-shadow:var(--shadow-sm);
+  }
+  .checklist{display:flex;flex-direction:column;gap:16px;margin:36px 0;max-width:480px;margin-inline:auto;text-align:left;}
+  .check-row{display:flex;align-items:center;gap:14px;font-weight:600;font-size:16px;}
+  .check-icon{
+    width:26px;height:26px;border-radius:50%;background:var(--gradient);
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .check-icon svg{width:14px;height:14px;stroke:#fff;stroke-width:3;}
+  .doctor-badge{
+    display:inline-flex;align-items:center;gap:12px;margin-top:12px;
+    background:#fff;padding:14px 26px;border-radius:16px;box-shadow:var(--shadow-md);
+    border:1px solid rgba(167,139,250,0.2);
+  }
+  .doctor-badge .ic{
+    width:40px;height:40px;border-radius:12px;background:var(--gradient-soft);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .doctor-badge .ic svg{width:22px;height:22px;stroke:var(--secondary);}
+  .doctor-badge strong{display:block;font-size:15px;}
+  .doctor-badge span{font-size:12.5px;color:var(--subtext);}
+  .disclaimer{font-size:13px;color:var(--subtext);margin-top:22px;max-width:560px;margin-inline:auto;line-height:1.6;}
+
+  /* ---------- Section headers ---------- */
+  .section-head{text-align:center;max-width:640px;margin:0 auto 56px;}
+  .section-head h2{font-size:clamp(28px,4vw,42px);margin-top:16px;}
+  .section-head p{margin-top:14px;}
+
+  /* ---------- Feature highlights (Kinedu-style numbered blocks) ---------- */
+  .highlight-block{
+    display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;
+    padding:44px 0;
+  }
+  .highlight-block + .highlight-block{border-top:1px solid rgba(167,139,250,0.12);}
+  .highlight-block.reverse .highlight-copy{order:2;}
+  .highlight-block.reverse .highlight-visual{order:1;}
+  @media(max-width:860px){
+    .highlight-block{grid-template-columns:1fr;gap:28px;padding:32px 0;}
+    .highlight-block.reverse .highlight-copy{order:1;}
+    .highlight-block.reverse .highlight-visual{order:2;}
+  }
+  .highlight-num{
+    display:inline-flex;align-items:center;gap:10px;
+    font-family:var(--ff-display);font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--secondary);
+  }
+  .highlight-num .num{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:26px;height:26px;border-radius:8px;background:var(--gradient-soft);
+    font-family:var(--ff-body);font-size:12px;font-weight:800;color:var(--secondary);
+  }
+  .highlight-copy h3{font-size:clamp(22px,3vw,30px);margin-top:14px;}
+  .highlight-copy .subtext{margin-top:12px;}
+  .highlight-premium-badge{
+    display:inline-flex;align-items:center;gap:6px;margin-top:14px;
+    background:var(--gradient);color:#fff;font-size:12px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;
+    padding:6px 13px;border-radius:999px;
+  }
+  .highlight-premium-badge svg{width:12px;height:12px;fill:#fff;}
+
+  /* Reminder highlight — special premium gradient visual */
+  .reminder-visual{
+    background:var(--gradient);border-radius:var(--radius);padding:32px 26px;
+    position:relative;overflow:hidden;box-shadow:var(--shadow-lg);text-align:center;
+  }
+  .reminder-visual::before{content:"";position:absolute;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,0.12);top:-70px;right:-50px;}
+  .reminder-ring-wrap{position:relative;width:150px;height:150px;margin:6px auto 18px;z-index:1;}
+  .reminder-ring-wrap svg.ring{transform:rotate(-90deg);}
+  .reminder-ring-track{fill:none;stroke:rgba(255,255,255,0.24);stroke-width:9;}
+  .reminder-ring-progress{fill:none;stroke:#fff;stroke-width:9;stroke-linecap:round;stroke-dasharray:339.3;stroke-dashoffset:110;}
+  .reminder-ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+  .reminder-ring-center .rt{color:#fff;font-family:var(--ff-display);font-size:22px;font-weight:600;font-variant-numeric:tabular-nums;}
+  .reminder-ring-center .rl{color:rgba(255,255,255,0.8);font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin-top:2px;}
+  .reminder-chip-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;position:relative;z-index:1;}
+  .reminder-chip{
+    display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.16);
+    border:1px solid rgba(255,255,255,0.25);border-radius:12px;padding:9px 12px;
+    color:#fff;font-size:12.5px;font-weight:700;
+  }
+  .reminder-chip svg{width:15px;height:15px;stroke:#fff;flex-shrink:0;}
+
+  /* Standard highlight visual (features 02-05) */
+  .std-visual{
+    background:var(--card);border-radius:var(--radius);padding:26px;
+    box-shadow:var(--shadow-sm);border:1px solid rgba(167,139,250,0.12);
+  }
+  .std-visual-icon{
+    width:54px;height:54px;border-radius:16px;background:var(--gradient);
+    display:flex;align-items:center;justify-content:center;margin-bottom:18px;
+    box-shadow:0 8px 18px rgba(236,72,153,0.22);
+  }
+  .std-visual-icon svg{width:26px;height:26px;stroke:#fff;}
+  .std-chip-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .std-chip{
+    display:flex;align-items:center;gap:8px;background:#fff;
+    padding:11px 12px;border-radius:12px;box-shadow:var(--shadow-sm);font-weight:600;font-size:13px;
+  }
+  .std-chip svg{width:16px;height:16px;stroke:var(--secondary);flex-shrink:0;}
+
+  /* ---------- All-features dot list ---------- */
+  .all-features-card{
+    background:var(--card);border-radius:var(--radius);padding:14px 8px;
+    border:1px solid rgba(236,72,153,0.07);
+  }
+  .all-features-grid{display:grid;grid-template-columns:1fr 1fr;}
+  @media(min-width:720px){ .all-features-grid{grid-template-columns:repeat(3,1fr);} }
+  .all-features-item{
+    display:flex;align-items:center;gap:11px;padding:13px 14px;
+  }
+  .all-features-item .dot{
+    width:9px;height:9px;border-radius:50%;background:var(--gradient);flex-shrink:0;
+  }
+  .all-features-item span{font-size:14px;font-weight:600;color:var(--text);}
+
+  /* ---------- How it works ---------- */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;position:relative;}
+  .steps.steps-4{grid-template-columns:repeat(2,1fr);max-width:760px;margin:0 auto;}
+  @media(max-width:860px){ .steps{grid-template-columns:1fr;} }
+  @media(max-width:560px){ .steps-4{grid-template-columns:1fr;} }
+  .steps-4 .step{
+    aspect-ratio:1/1;
+    display:flex;flex-direction:column;justify-content:center;
+    border-radius:28px;
+  }
+  @media(max-width:560px){ .steps-4 .step{aspect-ratio:auto;} }
+  .step{
+    background:#fff;border-radius:var(--radius);padding:32px 26px;
+    box-shadow:var(--shadow-sm);text-align:left;
+    opacity:0;transform:translateY(30px);transition:opacity .7s ease, transform .7s ease;
+  }
+  .step.in-view{opacity:1;transform:translateY(0);}
+  .step-num{
+    font-family:var(--ff-display);font-size:15px;font-weight:700;color:var(--accent);
+    letter-spacing:.05em;
+  }
+  .step h3{margin:14px 0 10px;font-size:20px;}
+  .step p{color:var(--subtext);font-size:15px;line-height:1.6;}
+
+  /* ---------- Why moms love ---------- */
+  .love-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  @media(max-width:860px){ .love-grid{grid-template-columns:repeat(2,1fr);} }
+  @media(max-width:560px){ .love-grid{grid-template-columns:1fr;} }
+  .love-card{
+    padding:28px 22px;border-radius:var(--radius);background:#fff;
+    border:1px solid rgba(167,139,250,0.15);
+    display:flex;flex-direction:column;gap:12px;
+    transition:transform .3s ease, box-shadow .3s ease;
+  }
+  .love-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-sm);}
+  .love-icon{width:44px;height:44px;border-radius:12px;background:var(--gradient-soft);display:flex;align-items:center;justify-content:center;}
+  .love-icon svg{width:22px;height:22px;stroke:var(--secondary);}
+  .love-card h3{font-size:16.5px;font-weight:700;}
+  .love-card p{color:var(--subtext);font-size:14px;line-height:1.6;}
+
+  /* ---------- Testimonials ---------- */
+  .testi-wrap{max-width:720px;margin:0 auto;position:relative;}
+  .testi-track{overflow:hidden;border-radius:var(--radius);}
+  .testi-slides{display:flex;transition:transform .5s cubic-bezier(.2,.9,.3,1.1);}
+  .testi-slide{min-width:100%;background:var(--card);padding:40px 36px;text-align:center;}
+  .stars{display:flex;gap:4px;justify-content:center;margin-bottom:18px;}
+  .stars svg{width:20px;height:20px;fill:var(--secondary);stroke:none;}
+  .testi-quote{font-family:var(--ff-display);font-size:19px;line-height:1.6;margin-bottom:20px;}
+  .testi-name{font-weight:700;font-size:15px;}
+  .testi-role{color:var(--subtext);font-size:13px;margin-top:2px;}
+  .testi-sample{display:inline-block;margin-top:10px;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--accent);background:rgba(167,139,250,0.12);padding:4px 10px;border-radius:999px;}
+  .testi-nav{display:flex;justify-content:center;align-items:center;gap:18px;margin-top:24px;}
+  .testi-arrow{
+    width:42px;height:42px;border-radius:50%;background:#fff;box-shadow:var(--shadow-sm);
+    display:flex;align-items:center;justify-content:center;transition:transform .25s;
+  }
+  .testi-arrow:hover{transform:scale(1.08);}
+  .testi-arrow svg{width:18px;height:18px;stroke:var(--secondary);}
+  .testi-dots{display:flex;gap:8px;}
+  .testi-dot{width:8px;height:8px;border-radius:50%;background:rgba(236,72,153,0.2);transition:all .3s;}
+  .testi-dot.active{background:var(--secondary);width:22px;border-radius:4px;}
+
+  /* ---------- Hero trust badges ---------- */
+  .hero-trust{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:30px;}
+  @media(max-width:960px){ .hero-trust{justify-content:center;} }
+  .hero-trust-item{display:flex;align-items:center;gap:7px;font-size:13.5px;font-weight:600;color:var(--subtext);}
+  .hero-trust-item svg{width:16px;height:16px;stroke:var(--secondary);flex-shrink:0;}
+
+  /* ---------- Stage cards (Who is Momsly for) ---------- */
+  .stage-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  @media(max-width:960px){ .stage-grid{grid-template-columns:repeat(2,1fr);} }
+  @media(max-width:560px){ .stage-grid{grid-template-columns:1fr;} }
+  .stage-card{
+    background:var(--card);border-radius:var(--radius);padding:28px 24px;
+    border:1px solid rgba(236,72,153,0.06);
+    transition:transform .35s cubic-bezier(.2,.9,.3,1.2), box-shadow .35s ease;
+  }
+  .stage-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-md);}
+  .stage-icon{
+    width:52px;height:52px;border-radius:16px;background:var(--gradient);
+    display:flex;align-items:center;justify-content:center;margin-bottom:16px;
+    box-shadow:0 8px 18px rgba(236,72,153,0.25);
+  }
+  .stage-icon svg{width:26px;height:26px;stroke:#fff;}
+  .stage-card h3{font-size:18px;font-weight:600;}
+  .stage-card .stage-age{display:block;color:var(--accent);font-size:12.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin-top:4px;margin-bottom:14px;}
+  .stage-list{display:flex;flex-direction:column;gap:9px;}
+  .stage-list li{display:flex;align-items:center;gap:9px;font-size:14.5px;color:var(--text);}
+  .stage-list li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--secondary);flex-shrink:0;}
+
+  /* ---------- Feature highlight (Budget Planner) ---------- */
+  .feature-highlight{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;}
+  @media(max-width:900px){ .feature-highlight{grid-template-columns:1fr;} }
+  .feature-copy h2{font-size:clamp(26px,3.6vw,38px);margin-top:16px;}
+  .feature-copy .subtext{margin-top:16px;}
+  .feature-copy .btn{margin-top:28px;}
+  .feature-chips{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:28px;}
+  .feature-chip{
+    display:flex;align-items:center;gap:10px;background:#fff;
+    padding:12px 14px;border-radius:14px;box-shadow:var(--shadow-sm);font-weight:600;font-size:14px;
+  }
+  .feature-chip svg{width:18px;height:18px;stroke:var(--secondary);flex-shrink:0;}
+  .feature-visual{
+    background:var(--card);border-radius:var(--radius);padding:28px;
+    box-shadow:var(--shadow-md);border:1px solid rgba(167,139,250,0.15);
+  }
+  .budget-dash-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;}
+  .budget-dash-head h4{font-family:var(--ff-display);font-size:16px;}
+  .budget-dash-head span{font-size:12px;color:var(--subtext);font-weight:600;}
+  .budget-row{display:flex;align-items:center;gap:12px;background:#fff;border-radius:14px;padding:14px;box-shadow:var(--shadow-sm);margin-bottom:12px;}
+  .budget-row .ic{width:34px;height:34px;border-radius:10px;background:var(--gradient-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .budget-row .ic svg{width:17px;height:17px;stroke:var(--secondary);}
+  .budget-row .bar-wrap{flex:1;}
+  .budget-row .bar-label{display:flex;justify-content:space-between;font-size:12.5px;font-weight:700;margin-bottom:6px;}
+  .budget-row .bar-track{height:8px;border-radius:6px;background:rgba(167,139,250,0.15);overflow:hidden;}
+  .budget-row .bar-fill{height:100%;border-radius:6px;background:var(--gradient);}
+
+  /* ---------- Install PWA section ---------- */
+  .install-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;}
+  @media(max-width:860px){ .install-grid{grid-template-columns:1fr;} }
+  .install-card{
+    background:#fff;border-radius:var(--radius);padding:32px 28px;
+    box-shadow:var(--shadow-sm);border:1px solid rgba(236,72,153,0.08);
+  }
+  .install-card-head{display:flex;align-items:center;gap:14px;margin-bottom:22px;}
+  .install-card-head .ic{
+    width:46px;height:46px;border-radius:14px;background:var(--gradient);
+    display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-sm);flex-shrink:0;
+  }
+  .install-card-head .ic svg{width:24px;height:24px;stroke:#fff;}
+  .install-card-head h3{font-size:19px;}
+  .install-steps{display:flex;flex-direction:column;gap:14px;}
+  .install-step{display:flex;align-items:flex-start;gap:12px;font-size:14.5px;color:var(--text);}
+  .install-step .num{
+    width:24px;height:24px;border-radius:50%;background:var(--gradient-soft);color:var(--secondary);
+    font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;
+  }
+
+  /* ---------- Free trial section ---------- */
+  .trial-card{
+    background:var(--card);border-radius:var(--radius);padding:44px;
+    display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:center;
+    border:1px solid rgba(167,139,250,0.15);
+  }
+  @media(max-width:860px){ .trial-card{grid-template-columns:1fr;padding:32px 24px;} }
+  .trial-card h2{font-size:clamp(26px,3.6vw,36px);}
+  .trial-list{display:flex;flex-direction:column;gap:12px;margin-top:20px;}
+  .trial-list li{display:flex;align-items:center;gap:12px;font-weight:600;font-size:15px;}
+  .trial-price{
+    background:#fff;border-radius:var(--radius);padding:30px;text-align:center;box-shadow:var(--shadow-md);
+  }
+  .trial-price .price-label{font-size:13px;font-weight:700;color:var(--subtext);text-transform:uppercase;letter-spacing:.05em;}
+  .trial-price .price-value{font-family:var(--ff-display);font-size:clamp(22px,3vw,30px);font-weight:700;margin:10px 0 4px;line-height:1.25;
+    background:var(--gradient);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .trial-price .price-note{color:var(--subtext);font-size:13px;margin-bottom:20px;}
+
+  /* ---------- FAQ ---------- */
+  .faq-list{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:14px;}
+  .faq-item{
+    background:#fff;border-radius:18px;box-shadow:var(--shadow-sm);
+    border:1px solid rgba(236,72,153,0.07);overflow:hidden;
+  }
+  .faq-question{
+    width:100%;display:flex;justify-content:space-between;align-items:center;gap:16px;
+    padding:20px 24px;text-align:left;font-weight:700;font-size:15.5px;color:var(--text);
+  }
+  .faq-question .faq-plus{
+    width:26px;height:26px;border-radius:50%;background:var(--gradient-soft);flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;transition:transform .3s ease;
+  }
+  .faq-question .faq-plus svg{width:13px;height:13px;stroke:var(--secondary);stroke-width:2.5;}
+  .faq-item.open .faq-plus{transform:rotate(45deg);}
+  .faq-answer{max-height:0;overflow:hidden;transition:max-height .35s ease;}
+  .faq-answer p{padding:0 24px 22px;color:var(--subtext);font-size:14.5px;line-height:1.65;}
+
+  /* ---------- CTA section ---------- */
+  .cta-section{
+    background:var(--gradient);
+    border-radius:40px;
+    margin:0 24px;
+    padding:72px 24px;
+    text-align:center;
+    position:relative;overflow:hidden;
+  }
+  @media(max-width:768px){ .cta-section{border-radius:28px;padding:56px 20px;} }
+  .cta-section h2{color:#fff;font-size:clamp(28px,4.4vw,44px);}
+  .cta-section .btn-ghost{background:#fff;color:var(--secondary);border:none;margin-top:28px;}
+  .cta-note{color:rgba(255,255,255,0.85);font-size:14px;margin-top:16px;}
+  .cta-blob{position:absolute;border-radius:50%;background:rgba(255,255,255,0.12);}
+
+  /* ---------- Footer ---------- */
+  footer{padding:64px 0 32px;}
+  .footer-grid{display:flex;justify-content:space-between;flex-wrap:wrap;gap:40px;padding-bottom:40px;border-bottom:1px solid rgba(107,114,128,0.12);}
+  .footer-brand p{color:var(--subtext);font-size:14px;margin-top:12px;max-width:260px;line-height:1.6;}
+  .footer-links{display:flex;gap:64px;flex-wrap:wrap;}
+  .footer-col h4{font-size:14px;margin-bottom:14px;}
+  .footer-col a{display:block;color:var(--subtext);font-size:14px;margin-bottom:10px;transition:color .2s;}
+  .footer-col a:hover{color:var(--secondary);}
+  .footer-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;padding-top:28px;}
+  .footer-bottom p{color:var(--subtext);font-size:13px;}
+  .socials{display:flex;gap:12px;}
+  .social-ic{
+    width:38px;height:38px;border-radius:50%;background:var(--card);
+    display:flex;align-items:center;justify-content:center;transition:all .25s;
+  }
+  .social-ic:hover{background:var(--gradient);transform:translateY(-3px);}
+  .social-ic svg{width:17px;height:17px;stroke:var(--secondary);transition:stroke .25s;}
+  .social-ic:hover svg{stroke:#fff;}
+
+  /* ---------- Reveal on scroll ---------- */
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease, transform .7s ease;}
+  .reveal.in-view{opacity:1;transform:translateY(0);}
+
+  /* ---------- Modal ---------- */
+  .modal-overlay{
+    position:fixed;inset:0;background:rgba(31,41,55,0.45);backdrop-filter:blur(4px);
+    display:flex;align-items:center;justify-content:center;z-index:200;
+    opacity:0;pointer-events:none;transition:opacity .3s ease;padding:20px;
+  }
+  .modal-overlay.open{opacity:1;pointer-events:auto;}
+  .modal-box{
+    background:#fff;border-radius:var(--radius);padding:36px;max-width:420px;width:100%;
+    box-shadow:var(--shadow-lg);text-align:center;
+    transform:scale(.92);transition:transform .3s ease;
+  }
+  .modal-overlay.open .modal-box{transform:scale(1);}
+  .modal-icon{
+    width:64px;height:64px;border-radius:18px;background:var(--gradient);margin:0 auto 18px;
+    display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-sm);
+  }
+  .modal-icon svg{width:32px;height:32px;stroke:#fff;}
+  .modal-box h3{font-size:22px;margin-bottom:10px;}
+  .modal-box p{color:var(--subtext);font-size:14.5px;line-height:1.6;margin-bottom:24px;}
+  .modal-close{margin-top:6px;font-weight:700;color:var(--subtext);font-size:14px;}
+
+  /* focus visibility */
+  a:focus-visible, button:focus-visible{outline:2.5px solid var(--accent);outline-offset:3px;border-radius:6px;}
+</style>
+</head>
+<body>
+
+<!-- Floating decorative background -->
+<div class="float-layer" aria-hidden="true" id="floatLayer"></div>
+
+<!-- NAV -->
+<header class="nav">
+  <div class="nav-inner">
+    <a href="#top" class="logo"><span class="dot"></span>Momsly</a>
+    <nav class="nav-links">
+      <a href="#who-its-for">Who It's For</a>
+      <a href="#tools">Tools</a>
+      <a href="#how-it-works">How it works</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="login.html" class="btn btn-primary rippled">Start Free Trial</a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="eyebrow">For busy, brilliant moms</span>
+        <h1>Your Everyday <span class="accent-word">Parenting</span> Toolkit.</h1>
+        <p class="subtext">Personalized parenting tools that help busy parents make confident everyday decisions — from newborn sleep schedules to toddler routines — all in one place.</p>
+        <div class="hero-ctas">
+          <a href="login.html" class="btn btn-primary rippled">Start Free Trial</a>
+          <a href="#tools" class="btn btn-ghost rippled">Explore Tools</a>
+        </div>
+        <div class="hero-trust">
+          <span class="hero-trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>7-Day Free Trial</span>
+          <span class="hero-trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>No Credit Card Required</span>
+          <span class="hero-trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>Works on Android &amp; iPhone</span>
+          <span class="hero-trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>Lifetime Access Available</span>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="orbit-wrap">
+          <div class="phone-glow"></div>
+
+          <!-- Orbiting floating icons -->
+          <svg class="orbit-item" style="top:0;left:-10px;width:34px;height:34px;animation-delay:.2s" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" stroke-width="1.6"><path d="M12 2l1.8 5.6L19 9l-5.2 1.4L12 16l-1.8-5.6L5 9l5.2-1.4L12 2z"/></svg>
+          <svg class="orbit-item" style="top:30px;right:-16px;width:30px;height:30px;animation-delay:1.4s" viewBox="0 0 24 24" fill="none" stroke="#F472B6" stroke-width="1.6"><path d="M12 20s-7-4.4-9.3-9C1.2 7.9 3 5 6.2 5c2 0 3.3 1.1 3.8 2 .5-.9 1.8-2 3.8-2 3.2 0 5 2.9 3.5 6-2.3 4.6-9.3 9-9.3 9z"/></svg>
+          <svg class="orbit-item" style="bottom:60px;left:-20px;width:38px;height:38px;animation-delay:.8s" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" stroke-width="1.5"><path d="M6 15a4 4 0 010-8 5 5 0 019.6-1.6A4.5 4.5 0 0119 15H6z"/></svg>
+          <svg class="orbit-item" style="bottom:10px;right:-8px;width:28px;height:28px;animation-delay:2s" viewBox="0 0 24 24" fill="none" stroke="#F472B6" stroke-width="1.6"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M9 9h6v6H9z"/></svg>
+
+          <div class="phone">
+            <div class="phone-notch"></div>
+            <div class="phone-screen" id="phoneScreen">
+              <!-- Slide 1: Sleep Coach -->
+              <div class="screen-slide active" data-slide>
+                <span class="screen-tag">Sleep Coach</span>
+                <div class="screen-icon-wrap">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>
+                </div>
+                <div class="screen-title">Tonight's wind-down plan</div>
+                <div class="screen-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg><div style="flex:1"><div class="screen-bar w60"></div></div></div>
+                <div class="screen-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19h16M4 15h16M8 15V7a4 4 0 118 0v8"/></svg><div style="flex:1"><div class="screen-bar w40"></div></div></div>
+                <div class="screen-bar w80" style="margin-top:auto"></div>
+              </div>
+              <!-- Slide 2: Meal Generator -->
+              <div class="screen-slide" data-slide>
+                <span class="screen-tag">Meal Generator</span>
+                <div class="screen-icon-wrap">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v7a3 3 0 003 3v8M6 3v7M9 3v7M18 3c-2 2-2 5-2 8s0 5 2 5"/></svg>
+                </div>
+                <div class="screen-title">Quick toddler-friendly meals</div>
+                <div class="screen-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8"/></svg><div style="flex:1"><div class="screen-bar w60"></div></div></div>
+                <div class="screen-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12h16M4 6h16M4 18h10"/></svg><div style="flex:1"><div class="screen-bar w40"></div></div></div>
+                <div class="screen-bar w80" style="margin-top:auto"></div>
+              </div>
+              <!-- Slide 3: Tantrum Helper -->
+              <div class="screen-slide" data-slide>
+                <span class="screen-tag">Tantrum Helper</span>
+                <div class="screen-icon-wrap">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.4-9.3-9C1.2 7.9 3 5 6.2 5c2 0 3.3 1.1 3.8 2 .5-.9 1.8-2 3.8-2 3.2 0 5 2.9 3.5 6-2.3 4.6-9.3 9-9.3 9z"/></svg>
+                </div>
+                <div class="screen-title">Calm-down steps for now</div>
+                <div class="screen-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9 10h.01M15 10h.01M8 15c1.2 1 2.5 1.5 4 1.5s2.8-.5 4-1.5"/></svg><div style="flex:1"><div class="screen-bar w60"></div></div></div>
+                <div class="screen-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v4M12 17v4M3 12h4M17 12h4"/></svg><div style="flex:1"><div class="screen-bar w40"></div></div></div>
+                <div class="screen-bar w80" style="margin-top:auto"></div>
+              </div>
+              <!-- Slide 4: Routine Builder -->
+              <div class="screen-slide" data-slide>
+                <span class="screen-tag">Routine Builder</span>
+                <div class="screen-icon-wrap">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+                </div>
+                <div class="screen-title">A rhythm the whole day loves</div>
+                <div class="screen-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg><div style="flex:1"><div class="screen-bar w60"></div></div></div>
+                <div class="screen-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg><div style="flex:1"><div class="screen-bar w40"></div></div></div>
+                <div class="screen-bar w80" style="margin-top:auto"></div>
+              </div>
+            </div>
+          </div>
+          <div class="phone-dots" id="phoneDots"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHO IS MOMSLY FOR -->
+  <section class="section-pad" id="who-its-for">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Who Is Momsly For?</span>
+        <h2>Built For Every Stage Of Parenthood</h2>
+        <p class="subtext">Momsly grows with your family — from pregnancy to preschool.</p>
+      </div>
+      <div class="stage-grid" id="stageGrid"></div>
+    </div>
+  </section>
+
+  <!-- TRUSTED -->
+  <section class="trusted section-pad">
+    <div class="container trusted-inner reveal">
+      <div class="trust-badge-lg">Trusted by Thousands of Parents</div>
+      <ul class="checklist">
+        <li class="check-row">
+          <span class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>
+          Evidence-informed guidance
+        </li>
+        <li class="check-row">
+          <span class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>
+          Built with parent-friendly tools
+        </li>
+        <li class="check-row">
+          <span class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>
+          Designed with input from childcare professionals
+        </li>
+      </ul>
+      <div class="doctor-badge">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 3v6c0 5-3.5 8.5-8 11-4.5-2.5-8-6-8-11V5l8-3z"/><path d="M9 12l2 2 4-4"/></svg></span>
+        <span><strong>Evidence-Informed Parenting Tools</strong><span>Expert reviewed resources</span></span>
+      </div>
+      <p class="disclaimer">Momsly provides educational tools designed to support parents and is not a substitute for professional medical advice.</p>
+    </div>
+  </section>
+
+  <!-- FEATURED TOOLS -->
+  <section class="section-pad" id="tools">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Featured Tools</span>
+        <h2>Everything you need, in one calm place</h2>
+        <p class="subtext">Six tools built around the moments — and money — that matter most in a day.</p>
+      </div>
+
+      <!-- 01 — Smart Reminders (Premium) -->
+      <div class="highlight-block reveal">
+        <div class="highlight-copy">
+          <span class="highlight-num"><span class="num">01</span>Smart Reminders</span>
+          <h3>Never miss a feeding, nap, dose, or shot.</h3>
+          <p class="subtext">One reminder system that watches four things at once — feeding, sleep, medicine, and vaccinations — so nothing slips through on a hard day.</p>
+        </div>
+        <div class="highlight-visual">
+          <div class="reminder-visual">
+            <div class="reminder-ring-wrap">
+              <svg class="ring" viewBox="0 0 120 120" width="150" height="150">
+                <circle class="reminder-ring-track" cx="60" cy="60" r="54"/>
+                <circle class="reminder-ring-progress" cx="60" cy="60" r="54"/>
+              </svg>
+              <div class="reminder-ring-center">
+                <span class="rt">01:42:18</span>
+                <span class="rl">Next Feed</span>
+              </div>
+            </div>
+            <div class="reminder-chip-row">
+              <span class="reminder-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v7a3 3 0 003 3v8M6 3v7M9 3v7M18 3c-2 2-2 5-2 8s0 5 2 5"/></svg>Feed</span>
+              <span class="reminder-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>Sleep</span>
+              <span class="reminder-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="9" width="16" height="10" rx="3"/><path d="M9 9V7a3 3 0 016 0v2"/></svg>Medicine</span>
+              <span class="reminder-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 3v6c0 5-3.5 8.5-8 11-4.5-2.5-8-6-8-11V5l8-3z"/><path d="M9 12l2 2 4-4"/></svg>Vaccination</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 02 — Daily Planner -->
+      <div class="highlight-block reverse reveal">
+        <div class="highlight-copy">
+          <span class="highlight-num"><span class="num">02</span>Daily Planner</span>
+          <h3>A rhythm the whole day can follow.</h3>
+          <p class="subtext">Momsly builds a realistic daily plan around your child's actual patterns — mornings, naps, meals, and bedtime — and adjusts as they grow.</p>
+        </div>
+        <div class="highlight-visual">
+          <div class="std-visual">
+            <span class="std-visual-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></span>
+            <div class="std-chip-grid">
+              <span class="std-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>Morning Routine</span>
+              <span class="std-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>Nap Windows</span>
+              <span class="std-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>Bedtime Routine</span>
+              <span class="std-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>Auto-Adjusts</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 03 — Growth & Milestones -->
+      <div class="highlight-block reveal">
+        <div class="highlight-copy">
+          <span class="highlight-num"><span class="num">03</span>Growth &amp; Milestones</span>
+          <h3>Know exactly where they stand.</h3>
+          <p class="subtext">Track height, weight, and every milestone in one timeline — with clear context instead of guesswork, ready to share with your pediatrician.</p>
+        </div>
+        <div class="highlight-visual">
+          <div class="std-visual">
+            <span class="std-visual-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V10M10 19V4M16 19v-7M4 19h16"/></svg></span>
+            <div class="std-chip-grid">
+              <span class="std-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>Height &amp; Weight</span>
+              <span class="std-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>Percentile Charts</span>
+              <span class="std-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>Milestone Timeline</span>
+              <span class="std-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>Share With Doctor</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 04 — AI Parenting Assistant -->
+      <div class="highlight-block reverse reveal">
+        <div class="highlight-copy">
+          <span class="highlight-num"><span class="num">04</span>AI Parenting Assistant</span>
+          <h3>A real answer, any hour of the night.</h3>
+          <p class="subtext">Ask anything about feeding, sleep, behavior, or development and get a clear, personalized answer — no waiting for the next appointment.</p>
+        </div>
+        <div class="highlight-visual">
+          <div class="std-visual">
+            <span class="std-visual-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l1.8 5.6L19 9l-5.2 1.4L12 16l-1.8-5.6L5 9l5.2-1.4L12 2z"/></svg></span>
+            <div class="std-chip-grid">
+              <span class="std-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>Ask Anything</span>
+              <span class="std-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>Daily Tips</span>
+              <span class="std-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>Personalized</span>
+              <span class="std-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>Available 24/7</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 05 — Meal Planner -->
+      <div class="highlight-block reveal">
+        <div class="highlight-copy">
+          <span class="highlight-num"><span class="num">05</span>Meal Planner</span>
+          <h3>Skip the "what's for dinner" panic.</h3>
+          <p class="subtext">Quick, kid-friendly meal ideas built around what you already have — plus a grocery list that keeps the week's budget in check.</p>
+        </div>
+        <div class="highlight-visual">
+          <div class="std-visual">
+            <span class="std-visual-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v7a3 3 0 003 3v8M6 3v7M9 3v7M18 3c-2 2-2 5-2 8s0 5 2 5"/></svg></span>
+            <div class="std-chip-grid">
+              <span class="std-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>Weekly Meal Ideas</span>
+              <span class="std-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>Grocery List</span>
+              <span class="std-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>Toddler-Friendly</span>
+              <span class="std-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>Budget Aware</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 06 — Family Budget Planner -->
+      <div class="highlight-block reverse reveal">
+        <div class="highlight-copy">
+          <span class="highlight-num"><span class="num">06</span>Family Budget</span>
+          <h3>Take control of your family budget.</h3>
+          <p class="subtext">Track household expenses, baby costs, bills, subscriptions, and savings goals in one simple dashboard.</p>
+        </div>
+        <div class="highlight-visual">
+          <div class="feature-visual">
+            <div class="budget-dash-head">
+              <h4>This Month</h4>
+              <span>Aug 2026</span>
+            </div>
+            <div class="budget-row">
+              <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.4-9.3-9C1.2 7.9 3 5 6.2 5c2 0 3.3 1.1 3.8 2 .5-.9 1.8-2 3.8-2 3.2 0 5 2.9 3.5 6-2.3 4.6-9.3 9-9.3 9z"/></svg></span>
+              <div class="bar-wrap">
+                <div class="bar-label"><span>Baby Essentials</span><span>72%</span></div>
+                <div class="bar-track"><div class="bar-fill" style="width:72%"></div></div>
+              </div>
+            </div>
+            <div class="budget-row">
+              <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg></span>
+              <div class="bar-wrap">
+                <div class="bar-label"><span>Bills &amp; Subscriptions</span><span>48%</span></div>
+                <div class="bar-track"><div class="bar-fill" style="width:48%"></div></div>
+              </div>
+            </div>
+            <div class="budget-row">
+              <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21c8 0 14-6 14-14 0-1 0-2-.2-3C10 4.5 5 9.5 4 18c-.1.9-.1 2 1 3z"/></svg></span>
+                <div class="bar-wrap">
+                <div class="bar-label"><span>Savings Goal</span><span>61%</span></div>
+                <div class="bar-track"><div class="bar-fill" style="width:61%"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- All features — dot list -->
+      <div class="section-head reveal" style="padding-left:0;padding-right:0;">
+        <span class="eyebrow">The Complete Toolkit</span>
+        <h2>Everything Momsly includes</h2>
+        <p class="subtext">Every tool, at a glance — all in one calm place.</p>
+      </div>
+      <div class="all-features-card reveal">
+        <div class="all-features-grid" id="allFeaturesGrid"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INSTALL MOMSLY -->
+  <section class="section-pad">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Install Momsly</span>
+        <h2>Install Momsly In Less Than 30 Seconds</h2>
+        <p class="subtext">Momsly is a Progressive Web App — no app store needed, works like a real app on any device.</p>
+      </div>
+      <div class="install-grid">
+        <div class="install-card reveal">
+          <div class="install-card-head">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M11 18h2"/></svg></span>
+            <h3>Android</h3>
+          </div>
+          <div class="install-steps">
+            <div class="install-step"><span class="num">1</span>Open Momsly in Chrome</div>
+            <div class="install-step"><span class="num">2</span>Tap the menu</div>
+            <div class="install-step"><span class="num">3</span>Tap "Install App" or "Add to Home Screen"</div>
+            <div class="install-step"><span class="num">4</span>Momsly works like a normal app</div>
+          </div>
+        </div>
+        <div class="install-card reveal">
+          <div class="install-card-head">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M11 18h2"/></svg></span>
+            <h3>iPhone</h3>
+          </div>
+          <div class="install-steps">
+            <div class="install-step"><span class="num">1</span>Open Momsly in Safari</div>
+            <div class="install-step"><span class="num">2</span>Tap Share</div>
+            <div class="install-step"><span class="num">3</span>Tap "Add To Home Screen"</div>
+            <div class="install-step"><span class="num">4</span>Tap Add</div>
+            <div class="install-step"><span class="num">5</span>Momsly is now installed</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="section-pad" id="how-it-works" style="background:var(--card);">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">How It Works</span>
+        <h2>A plan in four simple steps</h2>
+      </div>
+      <div class="steps steps-4">
+        <div class="step">
+          <div class="step-num">STEP 01</div>
+          <h3>Choose your tool</h3>
+          <p>Pick the parenting tool that matches what you're facing right now, from sleep to budgeting.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">STEP 02</div>
+          <h3>Answer a few questions</h3>
+          <p>Tell Momsly about your child and situation — it only takes a minute.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">STEP 03</div>
+          <h3>Get personalized guidance</h3>
+          <p>Receive clear, actionable steps instantly — ready to use the moment you need them.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">STEP 04</div>
+          <h3>Save your results</h3>
+          <p>Keep your plan on hand so you can revisit or adjust it whenever your family needs to.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY MOMS LOVE MOMSLY -->
+  <section class="section-pad">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Why Parents Love Momsly</span>
+        <h2>Made to lighten the mental load</h2>
+      </div>
+      <div class="love-grid" id="loveGrid"></div>
+    </div>
+  </section>
+
+  <!-- FREE TRIAL -->
+  <section class="section-pad" style="background:var(--card);">
+    <div class="container">
+      <div class="trial-card reveal">
+        <div>
+          <span class="eyebrow">Free Trial</span>
+          <h2>Try Every Tool Free For 7 Days</h2>
+          <p class="subtext">During your trial you'll get full access — no strings attached.</p>
+          <ul class="trial-list">
+            <li><span class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Unlimited access</li>
+            <li><span class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Every parenting tool</li>
+            <li><span class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Family Budget Planner</li>
+            <li><span class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Future updates</li>
+            <li><span class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>No credit card required</li>
+          </ul>
+        </div>
+        <div class="trial-price">
+          <div class="price-label">After Your Trial</div>
+          <div class="price-value">Lifetime Access</div>
+          <div class="price-note">Pricing shown at the end of your 7-day trial</div>
+          <a href="login.html" class="btn btn-primary rippled" style="width:100%">Start Free Trial</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section-pad" id="faq">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">FAQ</span>
+        <h2>Questions parents ask us</h2>
+      </div>
+      <div class="faq-list" id="faqList"></div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="section-pad" id="reviews" style="background:var(--card);">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Reviews</span>
+        <h2>What moms are saying</h2>
+      </div>
+
+      <div class="testi-wrap reveal">
+        <div class="testi-track">
+          <div class="testi-slides" id="testiSlides"></div>
+        </div>
+        <div class="testi-nav">
+          <button class="testi-arrow" id="testiPrev" aria-label="Previous review">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <div class="testi-dots" id="testiDots"></div>
+          <button class="testi-arrow" id="testiNext" aria-label="Next review">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section-pad" id="start">
+    <div class="container">
+      <div class="cta-section reveal">
+        <div class="cta-blob" style="width:220px;height:220px;top:-60px;left:-60px;"></div>
+        <div class="cta-blob" style="width:160px;height:160px;bottom:-50px;right:-30px;"></div>
+        <h2>Parenting Doesn't Come With Instructions.<br>Momsly Helps.</h2>
+        <p class="cta-note" style="font-size:16px;max-width:520px;margin-inline:auto;">Everything you need to support your growing family — from pregnancy to preschool — all in one beautiful app.</p>
+        <a href="login.html" class="btn btn-ghost rippled">Start Free Trial</a>
+        <p class="cta-note">7 Days Free &nbsp;·&nbsp; Lifetime Access Available &nbsp;·&nbsp; Works on Android &amp; iPhone</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#top" class="logo"><span class="dot"></span>Momsly</a>
+        <p>Personalized parenting tools that help busy moms solve everyday challenges in minutes.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Product</h4>
+          <a href="#who-its-for">Who it's for</a>
+          <a href="#tools">Tools</a>
+          <a href="#how-it-works">How it works</a>
+          <a href="#faq">FAQ</a>
+          <a href="#reviews">Reviews</a>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <a href="#privacy">Privacy</a>
+          <a href="#terms">Terms</a>
+          <a href="#contact">Contact</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Momsly. All rights reserved.</p>
+      <div class="socials">
+        <a class="social-ic" href="https://www.instagram.com/momsly.app/?hl=en" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box">
+    <div class="modal-icon" id="modalIcon"></div>
+    <h3 id="modalTitle"></h3>
+    <p id="modalDesc"></p>
+    <a href="login.html" class="btn btn-primary rippled" id="modalCta">Try This Tool</a>
+    <div><button class="modal-close" id="modalClose">Close</button></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------------- Icon library (inline SVG paths) ---------------- */
+  var ICONS = {
+    moon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>',
+    meal:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v7a3 3 0 003 3v8M6 3v7M9 3v7M18 3c-2 2-2 5-2 8s0 5 2 5"/></svg>',
+    heart:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.4-9.3-9C1.2 7.9 3 5 6.2 5c2 0 3.3 1.1 3.8 2 .5-.9 1.8-2 3.8-2 3.2 0 5 2.9 3.5 6-2.3 4.6-9.3 9-9.3 9z"/></svg>',
+    calendar:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>',
+    flag:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3v18M5 4h11l-2.5 3.5L16 11H5"/></svg>',
+    suitcase:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>',
+    puzzle:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h4a2 2 0 010 4h-1v3h3v-1a2 2 0 114 0v1h3v4h-1a2 2 0 100 4h1v3h-4a2 2 0 01-2-2v-1h-3v3H6a2 2 0 01-2-2v-4h1a2 2 0 000-4H4V6a2 2 0 012-2z"/></svg>',
+    seedling:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V10M12 10c0-4 3-6 7-6 0 4-2 7-7 7M12 10C12 6.5 9.5 4 5 4c0 4.5 3 7 7 7"/></svg>',
+    check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>',
+    clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>',
+    leaf:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21c8 0 14-6 14-14 0-1 0-2-.2-3C10 4.5 5 9.5 4 18c-.1.9-.1 2 1 3z"/></svg>',
+    sparkle:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l1.8 5.6L19 9l-5.2 1.4L12 16l-1.8-5.6L5 9l5.2-1.4L12 2z"/></svg>',
+    device:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M9 18h6"/></svg>',
+    plus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>',
+    arrow:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
+    growth:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V10M10 19V4M16 19v-7M4 19h16"/></svg>',
+    wallet:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M16 12h3M3 9h18"/></svg>',
+    cart:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1"/><circle cx="17" cy="20" r="1"/><path d="M2 3h2l2.4 12.4a2 2 0 002 1.6h8.2a2 2 0 002-1.6L21 7H5.2"/></svg>',
+    baby:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="4"/><path d="M8 13c-3 1-5 3-5 7h18c0-4-2-6-5-7"/></svg>',
+    document:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></svg>',
+    school:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M6 10.5V16c0 1.7 2.7 3 6 3s6-1.3 6-3v-5.5"/></svg>',
+    star:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.9 6 6.6.9-4.8 4.6 1.1 6.5L12 17l-5.8 3 1.1-6.5L2.5 8.9l6.6-.9L12 2z"/></svg>'
+  };
+
+  /* ---------------- Life-stage data ---------------- */
+  var STAGES = [
+    {icon:'heart', title:'Pregnancy', age:'Trimester 1–3', items:['Hospital Bag Checklist','Baby Budget Planner','Baby Shopping Checklist','Birth Plan Organizer','Due Date Countdown']},
+    {icon:'moon', title:'Newborn', age:'0–3 Months', items:['Sleep Coach','Feeding Schedule','Wake Window Guide','Daily Routine','Crying Helper']},
+    {icon:'growth', title:'Infant', age:'4–6 Months', items:['Nap Planner','Activity Generator','Solid Food Readiness','Growth Tracker','Meal Planning']},
+    {icon:'baby', title:'Baby', age:'7–12 Months', items:['Meal Generator','Teething Helper','Sleep Schedule','Milestone Tracker','Packing List']},
+    {icon:'flag', title:'Toddler', age:'1–2 Years', items:['Tantrum Helper','Potty Training Coach','Routine Builder','Learning Activities','Meal Planner']},
+    {icon:'school', title:'Preschool', age:'2–5 Years', items:['Morning Routine','Reward Chart','School Checklist','Lunchbox Generator','Activity Planner']}
+  ];
+  var stageGrid = document.getElementById('stageGrid');
+  STAGES.forEach(function(s){
+    var card = document.createElement('div');
+    card.className = 'stage-card reveal';
+    var listItems = s.items.map(function(i){ return '<li>'+i+'</li>'; }).join('');
+    card.innerHTML =
+      '<div class="stage-icon">'+ICONS[s.icon]+'</div>'+
+      '<h3>'+s.title+'</h3>'+
+      '<span class="stage-age">'+s.age+'</span>'+
+      '<ul class="stage-list">'+listItems+'</ul>';
+    stageGrid.appendChild(card);
+  });
+
+  /* ---------------- All-features dot list ---------------- */
+  var ALL_FEATURES = [
+    'Feeding Schedule','Feeding Reminder','Sleep Tracker','Sleep Alarm',
+    'Medicine Reminder','Vaccination Reminder','Growth Tracker','Milestone Tracker',
+    'AI Parenting Assistant','Activity Generator','Meal Planner','Daily Planner',
+    'White Noise','Lullabies','Packing Checklist','School Checklist',
+    'Family Budget','Child Profiles','Daily Parenting Tips','Emergency Contacts'
+  ];
+  var allFeaturesGrid = document.getElementById('allFeaturesGrid');
+  ALL_FEATURES.forEach(function(name){
+    var item = document.createElement('div');
+    item.className = 'all-features-item';
+    item.innerHTML = '<span class="dot"></span><span>'+name+'</span>';
+    allFeaturesGrid.appendChild(item);
+  });
+
+  /* ---------------- Why parents love data ---------------- */
+  var LOVE = [
+    {icon:'clock', title:'Save time every day', desc:'Get answers in minutes instead of hours of searching.'},
+    {icon:'leaf', title:'Reduce parenting stress', desc:'Clear next steps replace guesswork and second-guessing.'},
+    {icon:'sparkle', title:'Personalized recommendations', desc:'Guidance shaped around your child, not a generic script.'},
+    {icon:'device', title:'Works on every device', desc:'Pick up right where you left off, on phone, tablet, or laptop.'},
+    {icon:'moon', title:'Install like a real app', desc:'Add Momsly to your home screen in seconds — no app store needed.'},
+    {icon:'check', title:'Offline support', desc:'Keep using supported tools even when your connection drops.'},
+    {icon:'flag', title:'Private &amp; secure', desc:'Your family\'s data stays yours, protected at every step.'},
+    {icon:'plus', title:'Always improving', desc:'New tools are added regularly as your family\'s needs grow.'}
+  ];
+  var loveGrid = document.getElementById('loveGrid');
+  LOVE.forEach(function(l){
+    var card = document.createElement('div');
+    card.className = 'love-card reveal';
+    card.innerHTML = '<div class="love-icon">'+ICONS[l.icon]+'</div><h3>'+l.title+'</h3><p>'+l.desc+'</p>';
+    loveGrid.appendChild(card);
+  });
+
+  /* ---------------- FAQ ---------------- */
+  var FAQS = [
+    {q:'Who is Momsly for?', a:'Momsly is built for parents at every stage — from pregnancy through preschool — who want quick, confident answers to everyday parenting questions.'},
+    {q:'Can I use it for multiple children?', a:'Yes. Momsly supports multiple child profiles so you can get personalized guidance for each of your kids at their own stage.'},
+    {q:'Can I install it on Android?', a:'Yes. Open Momsly in Chrome, tap the menu, then tap "Install App" or "Add to Home Screen" — it works just like a normal app.'},
+    {q:'Can I install it on iPhone?', a:'Yes. Open Momsly in Safari, tap Share, then tap "Add to Home Screen" and confirm — Momsly is installed in seconds.'},
+    {q:'Does it work offline?', a:'Supported tools remain available offline once installed, so you can keep using Momsly even with a spotty connection.'},
+    {q:'What happens after 7 days?', a:'Your free trial ends automatically. You can then choose to unlock Lifetime Access — pricing is shown at the end of your trial, with no auto-renewing subscription.'},
+    {q:'Is Momsly medical advice?', a:'No. Momsly provides educational tools designed to support parents and is not a substitute for professional medical advice.'},
+    {q:'Will more tools be added?', a:'Yes. Momsly is always improving, with new parenting and family tools added regularly at no extra cost during your access period.'}
+  ];
+  var faqList = document.getElementById('faqList');
+  FAQS.forEach(function(f, i){
+    var item = document.createElement('div');
+    item.className = 'faq-item reveal';
+    item.innerHTML =
+      '<button class="faq-question" type="button" aria-expanded="false">'+
+        '<span>'+f.q+'</span>'+
+        '<span class="faq-plus">'+ICONS.plus+'</span>'+
+      '</button>'+
+      '<div class="faq-answer"><p>'+f.a+'</p></div>';
+    faqList.appendChild(item);
+
+    var qBtn = item.querySelector('.faq-question');
+    var answer = item.querySelector('.faq-answer');
+    qBtn.addEventListener('click', function(){
+      var isOpen = item.classList.contains('open');
+      // close all others
+      faqList.querySelectorAll('.faq-item.open').forEach(function(openItem){
+        if(openItem !== item){
+          openItem.classList.remove('open');
+          openItem.querySelector('.faq-question').setAttribute('aria-expanded','false');
+          openItem.querySelector('.faq-answer').style.maxHeight = null;
+        }
+      });
+      if(isOpen){
+        item.classList.remove('open');
+        qBtn.setAttribute('aria-expanded','false');
+        answer.style.maxHeight = null;
+      } else {
+        item.classList.add('open');
+        qBtn.setAttribute('aria-expanded','true');
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+      }
+    });
+  });
+
+  /* ---------------- Testimonials ---------------- */
+  var TESTIMONIALS = [
+    {quote:'Momsly gave me a bedtime plan in five minutes that actually worked the same night.', name:'Sample Review — Jamie R.', role:'Mom of two'},
+    {quote:'The tantrum helper talked me through a hard moment at the grocery store. Genuinely calming.', name:'Sample Review — Priya K.', role:'First-time mom'},
+    {quote:'I use the meal generator almost every weeknight now. It just fits our schedule.', name:'Sample Review — Alex M.', role:'Mom of three'}
+  ];
+  var testiSlides = document.getElementById('testiSlides');
+  var testiDots = document.getElementById('testiDots');
+  var starSvg = '<svg viewBox="0 0 24 24"><path d="M12 2l2.9 6 6.6.9-4.8 4.6 1.1 6.5L12 17l-5.8 3 1.1-6.5L2.5 8.9l6.6-.9L12 2z"/></svg>';
+
+  TESTIMONIALS.forEach(function(t, i){
+    var slide = document.createElement('div');
+    slide.className = 'testi-slide';
+    slide.innerHTML =
+      '<div class="stars">'+starSvg.repeat(5)+'</div>'+
+      '<p class="testi-quote">"'+t.quote+'"</p>'+
+      '<div class="testi-name">'+t.name+'</div>'+
+      '<div class="testi-role">'+t.role+'</div>';
+    testiSlides.appendChild(slide);
+
+    var dot = document.createElement('button');
+    dot.className = 'testi-dot' + (i===0 ? ' active' : '');
+    dot.setAttribute('aria-label', 'Go to review ' + (i+1));
+    dot.addEventListener('click', function(){ goToTesti(i); });
+    testiDots.appendChild(dot);
+  });
+
+  var testiIndex = 0;
+  function goToTesti(i){
+    testiIndex = (i + TESTIMONIALS.length) % TESTIMONIALS.length;
+    testiSlides.style.transform = 'translateX(-' + (testiIndex*100) + '%)';
+    Array.prototype.forEach.call(testiDots.children, function(d, idx){
+      d.classList.toggle('active', idx === testiIndex);
+    });
+  }
+  document.getElementById('testiPrev').addEventListener('click', function(){ goToTesti(testiIndex-1); resetAutoplay(); });
+  document.getElementById('testiNext').addEventListener('click', function(){ goToTesti(testiIndex+1); resetAutoplay(); });
+
+  var testiTimer;
+  function startAutoplay(){ if(reduceMotion) return; testiTimer = setInterval(function(){ goToTesti(testiIndex+1); }, 5500); }
+  function resetAutoplay(){ clearInterval(testiTimer); startAutoplay(); }
+  startAutoplay();
+
+  /* ---------------- Phone screen cycle ---------------- */
+  var slides = document.querySelectorAll('#phoneScreen .screen-slide');
+  var dotsWrap = document.getElementById('phoneDots');
+  slides.forEach(function(_, i){
+    var d = document.createElement('div');
+    d.className = 'phone-dot' + (i===0 ? ' active' : '');
+    dotsWrap.appendChild(d);
+  });
+  var slideIndex = 0;
+  function cyclePhone(){
+    slides[slideIndex].classList.remove('active');
+    dotsWrap.children[slideIndex].classList.remove('active');
+    slideIndex = (slideIndex + 1) % slides.length;
+    slides[slideIndex].classList.add('active');
+    dotsWrap.children[slideIndex].classList.add('active');
+  }
+  if(!reduceMotion){ setInterval(cyclePhone, 3200); }
+
+  /* ---------------- Floating background elements ---------------- */
+  var floatLayer = document.getElementById('floatLayer');
+  var shapes = [
+    ICONS.sparkle, ICONS.heart, ICONS.leaf,
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 15a4 4 0 010-8 5 5 0 019.6-1.6A4.5 4.5 0 0119 15H6z"/></svg>',
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M9 9h6v6H9z"/></svg>'
+  ];
+  var colors = ['#F472B6', '#A78BFA', '#EC4899'];
+  if(!reduceMotion){
+    for(var i=0;i<10;i++){
+      var el = document.createElement('div');
+      el.className = 'float-item';
+      el.style.top = (Math.random()*90)+'%';
+      el.style.left = (Math.random()*94)+'%';
+      el.style.width = el.style.height = (18 + Math.random()*18)+'px';
+      el.style.color = colors[i % colors.length];
+      el.style.animationDuration = (10 + Math.random()*10)+'s';
+      el.style.animationDelay = (Math.random()*6)+'s';
+      el.innerHTML = shapes[i % shapes.length];
+      floatLayer.appendChild(el);
+    }
+  }
+
+  /* ---------------- Scroll reveal ---------------- */
+  var revealEls = document.querySelectorAll('.reveal, .step');
+  if('IntersectionObserver' in window && !reduceMotion){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('in-view');
+          io.unobserve(entry.target);
+        }
+      });
+    }, {threshold: .15});
+    revealEls.forEach(function(el){ io.observe(el); });
+  } else {
+    revealEls.forEach(function(el){ el.classList.add('in-view'); });
+  }
+
+  /* ---------------- Button ripple ---------------- */
+  document.querySelectorAll('.rippled').forEach(function(btn){
+    btn.addEventListener('click', function(e){
+      var rect = btn.getBoundingClientRect();
+      var ripple = document.createElement('span');
+      ripple.className = 'ripple';
+      ripple.style.left = (e.clientX - rect.left - 10)+'px';
+      ripple.style.top = (e.clientY - rect.top - 10)+'px';
+      ripple.style.width = ripple.style.height = '20px';
+      btn.appendChild(ripple);
+      setTimeout(function(){ ripple.remove(); }, 650);
+    });
+  });
+
+  /* ---------------- Tool modal ---------------- */
+  var modalOverlay = document.getElementById('modalOverlay');
+  var modalIcon = document.getElementById('modalIcon');
+  var modalTitle = document.getElementById('modalTitle');
+  var modalDesc = document.getElementById('modalDesc');
+
+  document.addEventListener('click', function(e){
+    var btn = e.target.closest('.tool-open');
+    if(!btn) return;
+    modalIcon.innerHTML = ICONS[btn.getAttribute('data-icon')] || '';
+    modalTitle.textContent = btn.getAttribute('data-title');
+    modalDesc.textContent = 'This is a preview of the ' + btn.getAttribute('data-title') + ' tool. Start your free trial to unlock it for your family.';
+    modalOverlay.classList.add('open');
+  });
+  function closeModal(){ modalOverlay.classList.remove('open'); }
+  document.getElementById('modalClose').addEventListener('click', closeModal);
+  modalOverlay.addEventListener('click', function(e){ if(e.target === modalOverlay) closeModal(); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeModal(); });
+
+})();
+</script>
+</body>
+</html>
