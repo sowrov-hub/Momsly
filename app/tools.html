@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tools — Momsly</title>
+<meta name="theme-color" content="#F472B6">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="assets/icons/icon-192.png">
+<link rel="stylesheet" href="css/theme.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+<div class="app-shell">
+  <div id="app-header-mount"></div>
+
+  <main class="screen">
+    <div class="search-bar">
+      <span id="search-icon"></span>
+      <input type="text" id="tool-search" placeholder="Search tools...">
+    </div>
+    <div class="chip-row" id="category-chips"></div>
+    <div class="tool-grid" id="tool-grid"></div>
+  </main>
+
+  <div id="bottom-nav-mount"></div>
+</div>
+
+<!-- ===================== REMINDERS SHEET ===================== -->
+<div class="overlay" id="sheet-reminders">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-head"><h2>Reminders</h2><button class="icon-btn" data-close-sheet></button></div>
+    <div class="chip-row" id="reminder-presets"></div>
+    <form id="reminder-form">
+      <div class="field"><label>Title</label><input type="text" id="reminder-title" placeholder="Feed baby" required></div>
+      <div class="field">
+        <label>Category</label>
+        <select id="reminder-category">
+          <option value="feeding">Feeding</option><option value="medicine">Medicine</option>
+          <option value="sleep">Sleep</option><option value="water">Water</option>
+          <option value="health">Health</option><option value="school">School</option>
+          <option value="care">Care</option><option value="custom">Custom</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Repeats</label>
+        <select id="reminder-repeat">
+          <option value="once">Once</option><option value="daily">Every day</option><option value="interval">Every N minutes</option>
+        </select>
+      </div>
+      <div class="field" id="reminder-time-field"><label>Time</label><input type="time" id="reminder-time"></div>
+      <div class="field" id="reminder-interval-field" style="display:none;"><label>Every (minutes)</label><input type="number" id="reminder-every" value="180"></div>
+      <button class="btn btn--primary" type="submit">Save Reminder</button>
+    </form>
+    <div class="section" style="margin-top:20px;">
+      <div class="section-head"><h2 style="font-size:var(--fs-md);">Your reminders</h2></div>
+      <div id="reminders-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== MILESTONES SHEET ===================== -->
+<div class="overlay" id="sheet-milestones">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-head"><h2>Milestone Timeline</h2><button class="icon-btn" data-close-sheet></button></div>
+    <div class="chip-row" id="milestone-presets"></div>
+    <form id="milestone-form">
+      <div class="field"><label>Milestone</label><input type="text" id="milestone-title" placeholder="First smile" required></div>
+      <div class="field"><label>Date</label><input type="date" id="milestone-date"></div>
+      <div class="field"><label>Note (optional)</label><input type="text" id="milestone-note" placeholder="Anything you want to remember"></div>
+      <button class="btn btn--primary" type="submit">Add Milestone</button>
+    </form>
+    <div class="section" style="margin-top:20px;">
+      <div class="section-head"><h2 style="font-size:var(--fs-md);">Timeline</h2></div>
+      <div id="milestones-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== EMERGENCY CONTACTS SHEET ===================== -->
+<div class="overlay" id="sheet-emergency-contacts">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-head"><h2>Emergency Contacts</h2><button class="icon-btn" data-close-sheet></button></div>
+    <div id="emergency-list" style="margin-bottom:16px;"></div>
+    <form id="emergency-form">
+      <div class="field"><label>Name</label><input type="text" id="ec-name" placeholder="Dr. Smith (Pediatrician)" required></div>
+      <div class="field"><label>Phone</label><input type="tel" id="ec-phone" placeholder="(555) 123-4567" required></div>
+      <button class="btn btn--primary" type="submit">Add Contact</button>
+    </form>
+    <p class="field-hint" style="margin-top:12px;">Poison Control (US): 1-800-222-1222</p>
+  </div>
+</div>
+
+<!-- ===================== CHECKLIST SHEETS (packing / shopping) ===================== -->
+<div class="overlay" id="sheet-packing-checklist">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-head"><h2>Packing Checklist</h2><button class="icon-btn" data-close-sheet></button></div>
+    <div id="checklist-packing" style="margin-bottom:16px;"></div>
+    <form class="checklist-add-form" data-key="packing" data-container="checklist-packing">
+      <div class="field-row" style="display:flex;gap:8px;"><input type="text" placeholder="Add an item" style="flex:1;padding:12px 14px;border-radius:12px;border:1.5px solid var(--color-border);"><button class="btn btn--primary btn--sm" type="submit">Add</button></div>
+    </form>
+  </div>
+</div>
+<div class="overlay" id="sheet-shopping-list">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-head"><h2>Shopping List</h2><button class="icon-btn" data-close-sheet></button></div>
+    <div id="checklist-shopping" style="margin-bottom:16px;"></div>
+    <form class="checklist-add-form" data-key="shopping" data-container="checklist-shopping">
+      <div class="field-row" style="display:flex;gap:8px;"><input type="text" placeholder="Diapers, wipes, formula..." style="flex:1;padding:12px 14px;border-radius:12px;border:1.5px solid var(--color-border);"><button class="btn btn--primary btn--sm" type="submit">Add</button></div>
+    </form>
+  </div>
+</div>
+
+<!-- ===================== FINANCE SHEETS ===================== -->
+<div class="overlay" id="sheet-family-budget">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-head"><h2>Family Budget</h2><button class="icon-btn" data-close-sheet></button></div>
+    <div class="card" style="text-align:center;margin-bottom:16px;background:var(--gradient-soft);">
+      <div class="subtext">Total logged</div>
+      <div style="font-family:var(--font-display);font-size:2rem;color:var(--color-primary);" id="budget-total">$0.00</div>
+    </div>
+    <div id="budget-list" style="margin-bottom:16px;"></div>
+    <a class="btn btn--secondary" href="#expense-tracker" onclick="UI.closeSheet('sheet-family-budget'); UI.openSheet('sheet-expense-tracker');">Add an Expense</a>
+  </div>
+</div>
+<div class="overlay" id="sheet-expense-tracker">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-head"><h2>Add Expense</h2><button class="icon-btn" data-close-sheet></button></div>
+    <form id="expense-form">
+      <div class="field"><label>What was it?</label><input type="text" id="exp-label" placeholder="Diapers (box of 100)" required></div>
+      <div class="field"><label>Amount ($)</label><input type="number" step="0.01" id="exp-amount" placeholder="24.99" required></div>
+      <div class="field"><label>Category</label>
+        <select id="exp-category"><option>Diapers</option><option>Feeding</option><option>Clothing</option><option>Healthcare</option><option>Gear</option><option>Other</option></select>
+      </div>
+      <button class="btn btn--primary" type="submit">Log Expense</button>
+    </form>
+  </div>
+</div>
+
+<!-- ===================== AI PLANNER SHEET ===================== -->
+<div class="overlay" id="sheet-ai-planner">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-head"><h2>AI Daily Planner</h2><button class="icon-btn" data-close-sheet></button></div>
+    <form id="planner-form">
+      <div class="field"><label>Baby's age (months)</label><input type="number" id="pl-age" min="0" max="48" value="4" required></div>
+      <div class="field"><label>Wake time</label><input type="time" id="pl-wake" value="07:00" required></div>
+      <div class="field"><label>Number of naps today</label><input type="number" id="pl-naps" min="0" max="5" value="3" required></div>
+      <div class="field"><label>Feeding style</label>
+        <select id="pl-feeding"><option value="milk">Breast/bottle only</option><option value="solids">Solids introduced</option></select>
+      </div>
+      <button class="btn btn--primary" type="submit">Generate Schedule</button>
+    </form>
+    <div class="section" id="planner-result" style="margin-top:20px;"></div>
+  </div>
+</div>
+
+<!-- ===================== ACTIVITY GENERATOR SHEET ===================== -->
+<div class="overlay" id="sheet-activity-generator">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-head"><h2>Activity Generator</h2><button class="icon-btn" data-close-sheet></button></div>
+    <div class="field"><label>Baby / child's age (months)</label><input type="number" id="act-age" min="0" max="60" value="6"></div>
+    <button class="btn btn--primary" id="act-generate" style="margin-bottom:16px;">Get an Idea</button>
+    <div id="activity-result"></div>
+  </div>
+</div>
+
+<!-- ===================== MEAL PLANNER SHEET ===================== -->
+<div class="overlay" id="sheet-meal-planner">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-head"><h2>Meal Planner</h2><button class="icon-btn" data-close-sheet></button></div>
+    <button class="btn btn--primary" id="meal-generate" style="margin-bottom:16px;">Generate This Week</button>
+    <div id="meal-plan-result"></div>
+  </div>
+</div>
+
+<!-- ===================== SLEEP TRAINING GUIDE ===================== -->
+<div class="overlay" id="sheet-sleep-training">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-head"><h2>Sleep Training Guide</h2><button class="icon-btn" data-close-sheet></button></div>
+
+    <div class="card tip-card" style="margin-bottom:16px;">
+      <p style="font-size:13px;line-height:1.6;">Most pediatric sleep guidance suggests waiting until at least <b>4-6 months</b> before sleep training, since younger babies still need overnight feeds. Always check with your pediatrician first, especially if your baby was premature or has any health or feeding concerns.</p>
+    </div>
+
+    <div class="section-head" style="margin-bottom:10px;"><h2 style="font-size:var(--fs-md);">Before you start</h2></div>
+    <div class="card" style="margin-bottom:16px;">
+      <div id="sleep-training-checklist"></div>
+    </div>
+
+    <div class="section-head" style="margin-bottom:10px;"><h2 style="font-size:var(--fs-md);">Compare methods</h2></div>
+    <div id="sleep-training-methods" style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;"></div>
+
+    <div class="section-head" style="margin-bottom:10px;"><h2 style="font-size:var(--fs-md);">Tips for success</h2></div>
+    <div class="card">
+      <ul style="padding-left:18px;margin:0;display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--color-subtext);">
+        <li>Keep a consistent bedtime routine (bath, book, bed) so your baby recognizes what's coming.</li>
+        <li>Put your baby down drowsy but still awake whenever possible — that's the moment self-soothing gets practiced.</li>
+        <li>Pick one method and one consistent response, and give it a full week before judging whether it's working.</li>
+        <li>Make sure the sleep space follows safe sleep basics: firm flat mattress, no loose blankets or soft toys, baby on their back.</li>
+        <li>If nothing improves after a week, or something feels wrong, stop and check in with your pediatrician or a sleep consultant.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== BABY EXERCISE GUIDE ===================== -->
+<div class="overlay" id="sheet-baby-exercise">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-head"><h2>Baby Exercise Guide</h2><button class="icon-btn" data-close-sheet></button></div>
+
+    <div class="card tip-card" style="margin-bottom:16px;">
+      <p style="font-size:13px;line-height:1.6;">Always supervise physical activity, stop if your baby seems tired or upset, and check with your pediatrician if you have any concerns about their movement or muscle tone.</p>
+    </div>
+
+    <div id="exercise-age-groups" style="display:flex;flex-direction:column;gap:12px;"></div>
+  </div>
+</div>
+
+<!-- ===================== BREATHING EXERCISE ===================== -->
+<div class="overlay" id="sheet-breathing">
+  <div class="sheet" style="text-align:center;">
+    <div class="sheet-handle"></div>
+    <div class="sheet-head"><h2>Breathing Exercise</h2><button class="icon-btn" data-close-sheet></button></div>
+    <div id="breathing-circle" style="width:140px;height:140px;border-radius:50%;background:var(--gradient-brand);margin:20px auto;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;transition:transform 4s ease-in-out;">Breathe</div>
+    <p class="subtext" id="breathing-label">Tap start when you're ready.</p>
+    <button class="btn btn--primary" id="breathing-start" style="margin-top:16px;">Start 1-Minute Reset</button>
+  </div>
+</div>
+
+<!-- ===================== SELF CARE ===================== -->
+<div class="overlay" id="sheet-self-care">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-head"><h2>Mom Self Care</h2><button class="icon-btn" data-close-sheet></button></div>
+    <div id="self-care-list" style="display:flex;flex-direction:column;gap:10px;"></div>
+  </div>
+</div>
+
+<!-- ===================== PHOTO MEMORIES ===================== -->
+<div class="overlay" id="sheet-photo-memories">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-head"><h2>Photo Memories</h2><button class="icon-btn" data-close-sheet></button></div>
+    <label class="btn btn--secondary" style="display:block;text-align:center;margin-bottom:16px;cursor:pointer;">
+      Add a Photo <input type="file" id="photo-input" accept="image/*" style="display:none;">
+    </label>
+    <div id="photo-grid" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;"></div>
+  </div>
+</div>
+
+<script src="js/utils.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/icons.js"></script>
+<script src="js/data.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/components.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/notification.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/push.js"></script>
+<script src="js/scheduler.js"></script>
+<script src="js/feeding.js"></script>
+<script src="js/sleep.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/export.js"></script>
+<script src="js/share.js"></script>
+<script src="js/backup.js"></script>
+<script src="js/logic.js"></script>
+<script src="js/milestones.js"></script>
+<script src="js/tools.js"></script>
+<script src="js/tracker.js"></script>
+<script src="js/pages.js"></script>
+<script src="js/app.js"></script>
+<script src="js/router.js"></script>
+<script>
+  App.mountShell({ title: 'Tools', activeHref: 'tools.html' });
+  document.getElementById('search-icon').innerHTML = Icons.search;
+
+  Tools.renderCategoryChips();
+  Tools.renderGrid();
+  Tools.initSearch();
+
+  function activeChildId() {
+    const children = Storage.get('children') || [];
+    return Storage.get('activeChildId') || children[0]?.id || null;
+  }
+
+  /* ---------- Reminders ---------- */
+  Tools.renderReminderPresets();
+  Tools.renderReminders();
+  Tools.bindReminderListEvents();
+  document.getElementById('reminder-repeat').addEventListener('change', Tools.toggleReminderFields);
+  document.getElementById('reminder-form').addEventListener('submit', Tools.handleAddReminder);
+
+  /* ---------- Milestones ---------- */
+  function renderMilestonesList() {
+    const childId = activeChildId();
+    const list = document.getElementById('milestones-list');
+    const items = childId ? Milestones.list(childId) : [];
+    list.innerHTML = items.length ? items.map(Components.milestoneItem).join('') : Components.emptyState({ icon: 'milestone', title: 'No milestones yet', subtitle: 'Add your first one above.' });
+    list.querySelectorAll('[data-toggle-milestone]').forEach(btn => {
+      btn.addEventListener('click', () => { Milestones.toggleDone(btn.dataset.toggleMilestone); renderMilestonesList(); });
+    });
+  }
+  document.getElementById('milestone-presets').innerHTML = Milestones.SUGGESTED.map(s => `<button class="chip" data-title="${s.title}">${s.title}</button>`).join('');
+  document.getElementById('milestone-presets').addEventListener('click', (e) => {
+    const chip = e.target.closest('[data-title]');
+    if (chip) document.getElementById('milestone-title').value = chip.dataset.title;
+  });
+  document.getElementById('milestone-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const childId = activeChildId();
+    if (!childId) { UI.toast('Add a child profile first.', 'error'); return; }
+    const title = document.getElementById('milestone-title').value.trim();
+    const date = document.getElementById('milestone-date').value || Utils.nowISO();
+    const note = document.getElementById('milestone-note').value.trim();
+    if (!title) return;
+    Milestones.add({ childId, title, date, note });
+    e.target.reset();
+    renderMilestonesList();
+    UI.toast('Milestone added! 🎉', 'success');
+  });
+  renderMilestonesList();
+
+  /* ---------- Emergency contacts ---------- */
+  function renderEmergencyContacts() {
+    const settings = Storage.get('settings') || {};
+    const contacts = settings.emergencyContacts || [];
+    const el = document.getElementById('emergency-list');
+    el.innerHTML = contacts.length ? contacts.map((c, i) => `
+      <div class="log-item">
+        <div class="log-icon">${Icons.contact}</div>
+        <div class="log-info"><div class="log-title">${Utils.escapeHtml(c.name)}</div><div class="log-meta">${Utils.escapeHtml(c.phone)}</div></div>
+        <a class="icon-btn" href="tel:${Utils.escapeHtml(c.phone)}">${Icons.contact}</a>
+        <button class="icon-btn" data-remove-contact="${i}">${Icons.trash}</button>
+      </div>`).join('') : Components.emptyState({ icon: 'contact', title: 'No contacts saved', subtitle: 'Add your pediatrician, family, or a neighbor.' });
+    el.querySelectorAll('[data-remove-contact]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        contacts.splice(Number(btn.dataset.removeContact), 1);
+        Tools.saveEmergencyContacts(contacts);
+        renderEmergencyContacts();
+      });
+    });
+  }
+  document.getElementById('emergency-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const settings = Storage.get('settings') || {};
+    const contacts = settings.emergencyContacts || [];
+    contacts.push({ name: document.getElementById('ec-name').value.trim(), phone: document.getElementById('ec-phone').value.trim() });
+    Tools.saveEmergencyContacts(contacts);
+    e.target.reset();
+    renderEmergencyContacts();
+    UI.toast('Contact saved.', 'success');
+  });
+  renderEmergencyContacts();
+
+  /* ---------- Checklists ---------- */
+  ['packing', 'shopping'].forEach(key => Tools.renderChecklist(key, 'checklist-' + key));
+  document.querySelectorAll('.checklist-add-form').forEach(form => {
+    Tools.bindChecklistEvents(form.dataset.key, form.dataset.container);
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const input = form.querySelector('input');
+      Tools.addChecklistItem(form.dataset.key, form.dataset.container, input.value);
+      input.value = '';
+    });
+  });
+
+  /* ---------- Budget / expenses ---------- */
+  Tools.renderBudget('budget-list', 'budget-total');
+  document.getElementById('expense-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    Tools.addExpense({ label: document.getElementById('exp-label').value.trim(), amount: document.getElementById('exp-amount').value, category: document.getElementById('exp-category').value });
+    e.target.reset();
+    Tools.renderBudget('budget-list', 'budget-total');
+    UI.toast('Expense logged.', 'success');
+    UI.closeSheet('sheet-expense-tracker');
+  });
+
+  /* ---------- AI Daily Planner ---------- */
+  document.getElementById('planner-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const schedule = Planner.generate({
+      ageMonths: Number(document.getElementById('pl-age').value),
+      wakeTime: document.getElementById('pl-wake').value,
+      napCount: Number(document.getElementById('pl-naps').value),
+      feedingStyle: document.getElementById('pl-feeding').value,
+    });
+    const iconFor = { feeding: 'bottle', sleep: 'sleep', activity: 'activity' };
+    document.getElementById('planner-result').innerHTML = `
+      <div class="section-head"><h2 style="font-size:var(--fs-md);">Today's schedule</h2></div>
+      <div class="card">${schedule.map(s => `
+        <div class="log-item"><div class="log-icon">${Icons[iconFor[s.type]] || Icons.sparkles}</div>
+        <div class="log-info"><div class="log-title">${s.label}</div></div>
+        <div class="log-value">${s.time}</div></div>`).join('')}</div>`;
+
+    // Save so the Home dashboard can show a "Today's Plan" card that
+    // links back to this same schedule without regenerating it.
+    Storage.set('dailyPlan', { date: Utils.todayKey(), schedule, generatedAt: Utils.nowISO() });
+  });
+
+  /* ---------- Activity generator ---------- */
+  const ACTIVITIES = {
+    infant: ['Tummy time with a high-contrast toy', 'Narrate what you\'re doing while making eye contact', 'Gentle baby massage after bath time', 'Track a slow-moving toy with their eyes'],
+    baby: ['Peekaboo with a soft cloth', 'Stack two soft blocks together', 'Explore textures: soft brush, cool spoon, silky cloth', 'Sing and do simple hand motions'],
+    toddler: ['Sensory bin with dry pasta and cups', 'Simple obstacle course with couch cushions', 'Sorting game with colored blocks', 'Bubble chasing in the yard or hallway'],
+    preschool: ['Draw a family portrait together', 'Build a pillow fort and read inside it', 'Simple baking task: pour and stir', 'Scavenger hunt for 3 round objects'],
+  };
+  function ageGroup(months) {
+    if (months < 4) return 'infant';
+    if (months < 12) return 'baby';
+    if (months < 36) return 'toddler';
+    return 'preschool';
+  }
+  document.getElementById('act-generate').addEventListener('click', () => {
+    const months = Number(document.getElementById('act-age').value) || 6;
+    const group = ageGroup(months);
+    const pick = ACTIVITIES[group][Math.floor(Math.random() * ACTIVITIES[group].length)];
+    document.getElementById('activity-result').innerHTML = `<div class="card tip-card">${Icons.activity}<p style="margin-top:8px;font-weight:700;">${pick}</p></div>`;
+  });
+
+  /* ---------- Meal planner ---------- */
+  const MEALS = ['Oatmeal with mashed banana', 'Scrambled eggs & toast strips', 'Steamed veggies with rice', 'Pasta with soft-cooked veggies', 'Yogurt with soft fruit', 'Grilled cheese, cut small', 'Baked sweet potato mash', 'Chicken & veggie soup', 'Whole grain pancakes', 'Avocado toast, cut small', 'Mac and cheese with peas', 'Quesadilla, cut into strips'];
+  document.getElementById('meal-generate').addEventListener('click', () => {
+    const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    const shuffled = [...MEALS].sort(() => Math.random() - 0.5);
+    document.getElementById('meal-plan-result').innerHTML = days.map((d, i) => `
+      <div class="log-item"><div class="log-icon">${Icons.food}</div><div class="log-info"><div class="log-title">${d}</div><div class="log-meta">${shuffled[i]}</div></div></div>`).join('');
+  });
+
+  /* ---------- Sleep Training Guide ---------- */
+  const SLEEP_TRAINING_CHECKLIST = [
+    "Baby is at least 4-6 months old (younger babies still need overnight feeds)",
+    "You've checked with your pediatrician, especially if baby was premature or has health/feeding concerns",
+    "Baby is healthy right now — not sick, teething badly, or due for a vaccine",
+    "The sleep space follows safe sleep basics: firm flat mattress, nothing loose in the crib, baby placed on their back",
+    "You have a consistent bedtime routine already in place (bath, book, bed)",
+  ];
+
+  const SLEEP_TRAINING_METHODS = [
+    {
+      name: 'Graduated Extinction (Ferber Method)',
+      summary: 'You put baby down drowsy but awake, then check in at gradually longer intervals if they cry — offering brief, calm reassurance without picking them up.',
+      timeline: 'Often shows results within about a week',
+      fit: 'Parents who want a structured, faster timeline and are comfortable with some crying',
+    },
+    {
+      name: 'Chair Method',
+      summary: 'You sit in a chair beside the crib as baby falls asleep, then move the chair a little farther from the crib — and eventually out of the room — every few nights.',
+      timeline: 'Typically a week or more, gradual by design',
+      fit: 'Parents who want to stay present in the room and prefer a slower, gentler transition',
+    },
+    {
+      name: 'Pick-Up / Put-Down',
+      summary: 'When baby cries, you pick them up and soothe them, then put them back down drowsy once calm — repeating as many times as needed until they fall asleep on their own.',
+      timeline: 'Can take longer; works best for younger or easily-soothed babies',
+      fit: 'Parents who want minimal crying and don\'t mind a more hands-on process',
+    },
+    {
+      name: 'Fading Method',
+      summary: 'You gradually shift bedtime and the wind-down routine in small steps (e.g. 15 minutes at a time) until baby is falling asleep at the right time, on their own.',
+      timeline: 'Gradual, often 1-2 weeks',
+      fit: 'Parents who prefer a very gentle, low-crying approach and have flexible schedules',
+    },
+    {
+      name: 'No-Tears / Gentle Method',
+      summary: 'Focuses on responsive soothing and gradually reducing the help you give at bedtime, without any scheduled crying intervals at all.',
+      timeline: 'Usually the slowest approach, but the gentlest',
+      fit: 'Parents who don\'t want to let baby cry, even briefly, and can commit to a longer process',
+    },
+  ];
+
+  document.getElementById('sleep-training-checklist').innerHTML = SLEEP_TRAINING_CHECKLIST.map((item, i) => `
+    <label class="checkbox-row" style="padding:8px 0;${i < SLEEP_TRAINING_CHECKLIST.length - 1 ? 'border-bottom:1px solid var(--color-border);' : ''}">
+      <input type="checkbox">
+      <span style="font-size:13px;">${item}</span>
+    </label>`).join('');
+
+  document.getElementById('sleep-training-methods').innerHTML = SLEEP_TRAINING_METHODS.map(m => `
+    <div class="card">
+      <h3 style="font-size:14px;margin-bottom:6px;">${m.name}</h3>
+      <p style="font-size:13px;color:var(--color-subtext);line-height:1.5;margin-bottom:8px;">${m.summary}</p>
+      <div style="display:flex;flex-direction:column;gap:4px;font-size:12px;">
+        <div><b style="color:var(--color-primary);">Timeline:</b> <span style="color:var(--color-subtext);">${m.timeline}</span></div>
+        <div><b style="color:var(--color-primary);">Best fit:</b> <span style="color:var(--color-subtext);">${m.fit}</span></div>
+      </div>
+    </div>`).join('');
+
+  /* ---------- Baby Exercise Guide ---------- */
+  const EXERCISE_AGE_GROUPS = [
+    {
+      label: '0-3 months',
+      moves: [
+        { name: 'Supervised tummy time', detail: 'Start with just a minute or two, several times a day, on a firm surface. Builds neck, shoulder, and back strength for future rolling and crawling.' },
+        { name: 'Gentle bicycle legs', detail: 'While baby lies on their back, slowly circle their legs like pedaling a bike, 3-5 circles at a time. Builds leg, hip, and core strength.' },
+        { name: 'Reach and grasp', detail: 'Offer a finger or a light rattle for baby to grip. Builds hand strength and early hand-eye coordination.' },
+      ],
+    },
+    {
+      label: '4-6 months',
+      moves: [
+        { name: 'Longer tummy time sessions', detail: 'Work toward 30-60 minutes total per day, spread across several sessions, as baby pushes up further on their arms.' },
+        { name: 'Supported sitting practice', detail: 'Prop baby with pillows for a few minutes at a time to build the core strength needed for independent sitting.' },
+        { name: 'Rolling encouragement', detail: 'Place a toy just out of reach to one side during tummy time to encourage rolling toward it.' },
+      ],
+    },
+    {
+      label: '7-12 months',
+      moves: [
+        { name: 'Crawling encouragement', detail: 'Get down on the floor at baby\'s level and encourage them to crawl toward you or a favorite toy.' },
+        { name: 'Pulling to stand', detail: 'Let baby practice pulling up on sturdy, low furniture (with you nearby) to build leg strength.' },
+        { name: 'Cruising support', detail: 'Hold both hands or use a stable surface to let baby practice stepping sideways along furniture.' },
+      ],
+    },
+    {
+      label: '1-3 years',
+      moves: [
+        { name: 'Active free play', detail: 'Health guidelines commonly cite around 60-180 minutes of physical activity a day for toddlers, most of it unstructured play like walking, running, and climbing.' },
+        { name: 'Ball play', detail: 'Rolling, throwing, and chasing a soft ball builds coordination and whole-body strength.' },
+        { name: 'Dancing and music play', detail: 'Simple songs with movements (clapping, swaying, marching) build rhythm, balance, and body awareness.' },
+        { name: 'Simple obstacle course', detail: 'Couch cushions to climb over, a tunnel to crawl through — great for balance, coordination, and confidence.' },
+      ],
+    },
+  ];
+
+  document.getElementById('exercise-age-groups').innerHTML = EXERCISE_AGE_GROUPS.map(g => `
+    <div>
+      <div class="eyebrow" style="margin-bottom:8px;">${g.label}</div>
+      <div class="card" style="display:flex;flex-direction:column;gap:12px;">
+        ${g.moves.map(m => `
+          <div>
+            <h3 style="font-size:14px;margin-bottom:2px;">${m.name}</h3>
+            <p style="font-size:13px;color:var(--color-subtext);line-height:1.5;">${m.detail}</p>
+          </div>`).join('<div style="height:1px;background:var(--color-border);"></div>')}
+      </div>
+    </div>`).join('');
+
+  /* ---------- Breathing exercise ---------- */
+  let breathingHandle = null;
+  document.getElementById('breathing-start').addEventListener('click', function () {
+    const circle = document.getElementById('breathing-circle');
+    const label = document.getElementById('breathing-label');
+    let phase = 0;
+    const phases = [{ text: 'Breathe in…', scale: 1.3 }, { text: 'Hold…', scale: 1.3 }, { text: 'Breathe out…', scale: 0.85 }, { text: 'Hold…', scale: 0.85 }];
+    this.disabled = true; this.textContent = 'In progress…';
+    clearInterval(breathingHandle);
+    function tick() {
+      const p = phases[phase % phases.length];
+      circle.style.transform = `scale(${p.scale})`;
+      circle.textContent = p.text.split(' ')[0];
+      label.textContent = p.text;
+      phase++;
+    }
+    tick();
+    breathingHandle = setInterval(tick, 4000);
+    setTimeout(() => {
+      clearInterval(breathingHandle);
+      circle.style.transform = 'scale(1)'; circle.textContent = 'Breathe';
+      label.textContent = 'Nice work. You can do this. 💗';
+      document.getElementById('breathing-start').disabled = false;
+      document.getElementById('breathing-start').textContent = 'Start Again';
+    }, 60000);
+  });
+
+  /* ---------- Self care ---------- */
+  const SELF_CARE_IDEAS = [
+    'Drink a full glass of water right now.', 'Step outside for 2 minutes of fresh air.', 'Text a friend just to say hi.',
+    'Put on a song you loved before baby.', 'Stretch your neck and shoulders for 30 seconds.', 'Write down one thing you did well today.',
+  ];
+  document.getElementById('self-care-list').innerHTML = SELF_CARE_IDEAS.map(idea => `
+    <div class="card" style="display:flex;align-items:center;gap:10px;"><span style="color:var(--color-primary);">${Icons.heart}</span><span style="font-size:14px;">${idea}</span></div>`).join('');
+
+  /* ---------- Photo memories ---------- */
+  function renderPhotos() {
+    const photos = Storage.get('photos') || [];
+    const grid = document.getElementById('photo-grid');
+    grid.innerHTML = photos.length ? photos.slice().reverse().map(p => `
+      <div style="position:relative;aspect-ratio:1;border-radius:12px;overflow:hidden;">
+        <img src="${p.url}" style="width:100%;height:100%;object-fit:cover;">
+      </div>`).join('') : `<div style="grid-column:1/-1;">${Components.emptyState({ icon: 'camera', title: 'No photos yet', subtitle: 'Add your first memory above.' })}</div>`;
+  }
+  document.getElementById('photo-input').addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      const photos = Storage.get('photos') || [];
+      photos.push({ id: Utils.uid(), url: reader.result, date: Utils.nowISO(), childId: activeChildId() });
+      Storage.set('photos', photos);
+      renderPhotos();
+      UI.toast('Photo saved.', 'success');
+    };
+    reader.readAsDataURL(file);
+  });
+  renderPhotos();
+</script>
+</body>
+</html>
