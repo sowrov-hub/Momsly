@@ -77,6 +77,65 @@ const Icons = (() => {
     calendar: wrap('<rect x="4" y="5.5" width="16" height="15" rx="2"/><path d="M8 3.5v4M16 3.5v4M4 10h16"/>'),
     apple: wrap('<path d="M12 8c-3 0-5 2.3-5 5.7C7 17.5 9.5 21 11.4 21c.9 0 1.2-.5 2.1-.5s1.2.5 2.1.5C17.5 21 20 17.7 20 14.3c0-1.3-.5-2.5-1.3-3.3-1.9-1.9-4.7-1-6.7-1Z"/><path d="M13.5 6.5c.6-.9.9-2 .8-3-1 .1-2.2.7-2.9 1.6-.6.8-1 1.9-.8 3 1.1.1 2.3-.6 2.9-1.6Z"/>'),
     baby: wrap('<circle cx="12" cy="9" r="4"/><path d="M8.5 9c0-1 .5-2 1.5-2M9 20c0-3 1.3-5 3-5s3 2 3 5"/><path d="M6 15c0-1.5 1-2.5 2-3M18 15c0-1.5-1-2.5-2-3"/>'),
+
+    /* Illustrated, full-color variants used only on the home "Today" stats
+       card (hero-stats-card). Multi-tone with gradients, unlike the rest of
+       the icon set which is single-color/currentColor by design. */
+    feedIllustrated: `<svg viewBox="0 0 64 64" width="1em" height="1em" fill="none">
+      <defs>
+        <linearGradient id="msBottleBody" x1="20" y1="20" x2="44" y2="58" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#FDEFF5"/>
+        </linearGradient>
+        <linearGradient id="msBottleCap" x1="24" y1="6" x2="40" y2="16" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#F98CB0"/><stop offset="1" stop-color="#E85C93"/>
+        </linearGradient>
+        <linearGradient id="msBottleNipple" x1="26" y1="12" x2="38" y2="24" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#FBC98A"/><stop offset="1" stop-color="#F0A85C"/>
+        </linearGradient>
+      </defs>
+      <rect x="25" y="8" width="14" height="6" rx="2" fill="url(#msBottleCap)"/>
+      <path d="M28 8c0-3 1.5-5 4-5s4 2 4 5v3h-8V8z" fill="url(#msBottleNipple)"/>
+      <path d="M25 14c-3 4-6 7-6 12v27c0 5 5 8 13 8s13-3 13-8V26c0-5-3-8-6-12H25z" fill="url(#msBottleBody)" stroke="#E9A9C4" stroke-width="1.5"/>
+      <path d="M19 26c0-5 3-8 6-12h14c3 4 6 7 6 12" stroke="#E9A9C4" stroke-width="1.5"/>
+      <path d="M20 40c0-2 2-3 3-3h18c1 0 3 1 3 3v13c0 5-5 8-12 8s-12-3-12-8V40z" fill="#FFE3ED" opacity="0.9"/>
+      <path d="M23 31h18" stroke="#F2B7CC" stroke-width="2" stroke-linecap="round"/>
+      <path d="M25 39h14" stroke="#F2B7CC" stroke-width="2" stroke-linecap="round"/>
+      <path d="M25 47h14" stroke="#F2B7CC" stroke-width="2" stroke-linecap="round"/>
+      <path d="M23 20c-1 3-2 5-2 8v20" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
+    </svg>`,
+
+    napIllustrated: `<svg viewBox="0 0 64 64" width="1em" height="1em" fill="none">
+      <defs>
+        <linearGradient id="msNapMoon" x1="14" y1="8" x2="52" y2="52" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#FBF5FF"/><stop offset="1" stop-color="#E4CCFA"/>
+        </linearGradient>
+        <linearGradient id="msNapCloud" x1="18" y1="38" x2="46" y2="52" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#F4E9FC"/>
+        </linearGradient>
+      </defs>
+      <path d="M42 9c-4 2-7 7-7 13 0 9 7 16 16 16 1.5 0 3-0.2 4.4-0.6C51.6 46.8 43.4 53 34 53 21.3 53 11 42.7 11 30S21.3 7 34 7c2.8 0 5.5 0.5 8 1.4z" fill="url(#msNapMoon)"/>
+      <path d="M23 30c1.6 2 4.4 2 6 0" stroke="#9B5CD6" stroke-width="2.4" stroke-linecap="round"/>
+      <path d="M32 27c1.4 1.8 3.8 1.8 5.2 0" stroke="#9B5CD6" stroke-width="2.4" stroke-linecap="round"/>
+      <circle cx="21" cy="35" r="2.4" fill="#F0B8E4" opacity="0.7"/>
+      <path d="M15 46c0-3.3 2.7-5.5 5.8-5.2 0.9-2.6 3.3-4.3 6-4.3 3.4 0 6.2 2.5 6.6 5.7 0.5-0.2 1-0.3 1.6-0.3 2.5 0 4.5 2 4.5 4.5 0 0.2 0 0.4-0.1 0.6H15.5c-0.3-0.3-0.5-0.6-0.5-1z" fill="url(#msNapCloud)"/>
+      <path d="M50 15l1.2 3.4L54.6 20l-3.4 1.2L50 24.6l-1.2-3.4L45.4 20l3.4-1.2L50 15z" fill="#D9AEF2"/>
+      <circle cx="46" cy="10" r="1.6" fill="#D9AEF2"/>
+    </svg>`,
+
+    sleepIllustrated: `<svg viewBox="0 0 64 64" width="1em" height="1em" fill="none">
+      <defs>
+        <linearGradient id="msSleepMoon" x1="12" y1="6" x2="52" y2="54" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#F2F3FF"/><stop offset="1" stop-color="#C7CBFA"/>
+        </linearGradient>
+      </defs>
+      <path d="M44 8c-4.5 2.2-7.6 7.4-7.6 13.6 0 9.5 7.4 17.2 16.6 17.2 1.4 0 2.8-0.2 4.1-0.5C54.5 47.6 44.8 55 33.5 55 20.5 55 10 44.4 10 31.3S20.5 7.5 33.5 7.5c3.6 0 7 0.8 10 2.2z" fill="url(#msSleepMoon)"/>
+      <path d="M22 31c1.7 2.1 4.7 2.1 6.4 0" stroke="#6F6BD9" stroke-width="2.4" stroke-linecap="round"/>
+      <path d="M32 27.5c1.5 1.9 4 1.9 5.5 0" stroke="#6F6BD9" stroke-width="2.4" stroke-linecap="round"/>
+      <circle cx="20" cy="36" r="2.4" fill="#B9A6EF" opacity="0.7"/>
+      <path d="M50 16l1.4 4 4 1.4-4 1.4-1.4 4-1.4-4-4-1.4 4-1.4L50 16z" fill="#8B84EE"/>
+      <circle cx="46" cy="42" r="2" fill="#E58EB5"/>
+      <circle cx="53" cy="30" r="1.3" fill="#8B84EE"/>
+    </svg>`,
   };
 
   return set;
