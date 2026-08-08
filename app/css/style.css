@@ -366,10 +366,10 @@ main.screen {
   display: flex; align-items: center; justify-content: center;
   box-shadow: 0 6px 16px rgba(0,0,0,0.08);
 }
-.hero-stat-item__icon svg { width: 30px; height: 30px; }
-.hero-stat-item--feeds .hero-stat-item__icon { background: linear-gradient(160deg, #FBD3E4 0%, #F472B6 100%); color: #C2367A; }
-.hero-stat-item--naps .hero-stat-item__icon { background: linear-gradient(160deg, #E4D6FC 0%, #A78BFA 100%); color: #7A56E0; }
-.hero-stat-item--sleep .hero-stat-item__icon { background: linear-gradient(160deg, #D8DCFC 0%, #8B93F0 100%); color: #5A63D6; }
+.hero-stat-item__icon svg { width: 38px; height: 38px; }
+.hero-stat-item--feeds .hero-stat-item__icon { background: linear-gradient(160deg, #FFE1EC 0%, #FFC3DC 100%); color: #C2367A; }
+.hero-stat-item--naps .hero-stat-item__icon { background: linear-gradient(160deg, #EDE1FE 0%, #D9BFFA 100%); color: #7A56E0; }
+.hero-stat-item--sleep .hero-stat-item__icon { background: linear-gradient(160deg, #E3E5FE 0%, #C7CBFA 100%); color: #5A63D6; }
 .hero-stat-item__sparkle {
   position: absolute; color: var(--color-primary); opacity: 0.85;
 }
