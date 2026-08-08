@@ -27,7 +27,7 @@ const HomePage = (() => {
       statsCard.innerHTML = `
         <div class="hero-stat-item hero-stat-item--feeds">
           <div class="hero-stat-item__icon-wrap">
-            <span class="hero-stat-item__icon">${Icons.bottle}</span>
+            <span class="hero-stat-item__icon">${Icons.feedIllustrated}</span>
             <span class="hero-stat-item__sparkle">${Icons.heart}</span>
           </div>
           <b>${feedSummary.count}</b><span>Feeds today</span>
@@ -35,7 +35,7 @@ const HomePage = (() => {
         </div>
         <div class="hero-stat-item hero-stat-item--naps">
           <div class="hero-stat-item__icon-wrap">
-            <span class="hero-stat-item__icon">${Icons.sleep}</span>
+            <span class="hero-stat-item__icon">${Icons.napIllustrated}</span>
             <span class="hero-stat-item__sparkle">${Icons.sparkles}</span>
           </div>
           <b>${sleepSummary.count}</b><span>Naps today</span>
@@ -43,7 +43,7 @@ const HomePage = (() => {
         </div>
         <div class="hero-stat-item hero-stat-item--sleep">
           <div class="hero-stat-item__icon-wrap">
-            <span class="hero-stat-item__icon">${Icons.moon}</span>
+            <span class="hero-stat-item__icon">${Icons.sleepIllustrated}</span>
             <span class="hero-stat-item__sparkle">${Icons.sparkles}</span>
           </div>
           <b>${Utils.durationLabel(sleepSummary.totalMs)}</b><span>Sleep today</span>
