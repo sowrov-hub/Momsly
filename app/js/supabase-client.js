@@ -18,8 +18,8 @@
 // ==================================================
 // Replace these two placeholders with your real project values from
 // Supabase Dashboard → Project Settings → API.
-const SUPABASE_URL = 'YOUR_SUPABASE_URL_HERE';
-const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY_HERE';
+const SUPABASE_URL = 'https://lsbhqapudspqrnhjyujk.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_WyR6QJbd9HLwVzte867Zpw_BaGt5MQc';
 // The anon key is safe to expose in frontend code by design (it only
 // works within your RLS policies). Never put a service_role key here.
 
