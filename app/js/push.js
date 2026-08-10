@@ -21,7 +21,7 @@
 // Public VAPID key — safe to expose in frontend code.
 // Replace this placeholder with your real public key.
 // Generate a pair with: npx web-push generate-vapid-keys
-const VAPID_PUBLIC_KEY = 'YOUR_VAPID_PUBLIC_KEY_HERE';
+const VAPID_PUBLIC_KEY = 'BCmP947aYF5rNDWrZwRUnreVogWdonEKU8nz2iQiV5kugFl7vjvO-F_LVKj6N4jqiZ-0aSeiN7yMuhozhvS2ZQw';
 
 // VAPID PRIVATE KEY MUST NEVER BE STORED IN FRONTEND CODE.
 // Store it as a Supabase Edge Function secret named:
