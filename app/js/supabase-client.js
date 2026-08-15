@@ -23,8 +23,8 @@ const SupabaseClient = (() => {
 
   function isConfigured() {
     return !!SUPABASE_URL && !!SUPABASE_ANON_KEY &&
-      !SUPABASE_URL.includes('YOUR_SUPABASE_URL_HERE') &&
-      !SUPABASE_ANON_KEY.includes('YOUR_SUPABASE_ANON_KEY_HERE');
+      !SUPABASE_URL.includes('https://lsbhqapudspqrnhjyujk.supabase.co') &&
+      !SUPABASE_ANON_KEY.includes('sb_publishable_WyR6QJbd9HLwVzte867Zpw_BaGt5MQc');
   }
 
   function get() {
