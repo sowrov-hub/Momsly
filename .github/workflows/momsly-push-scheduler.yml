@@ -17,7 +17,7 @@ on:
     # GitHub's schedule trigger is best-effort and can drift a few
     # minutes under load — fine for reminder granularity, not something
     # to rely on for split-second timing.
-    - cron: '*/5 * * * *'
+   - cron: '* * * * *'
   workflow_dispatch: {}
 
 jobs:
