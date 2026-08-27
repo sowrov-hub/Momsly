@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Momsly — Your Smart Parenting Companion</title>
+<meta name="description" content="Momsly is your smart parenting companion: feeding & sleep tracking, reminders, milestones, and calm daily guidance for new moms.">
+<meta name="theme-color" content="#F472B6">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="assets/icons/icon-180.png">
+<link rel="icon" href="assets/icons/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,500&family=Caveat:wght@600;700&display=swap">
+<link rel="stylesheet" href="css/theme.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+<div class="app-shell">
+  <div id="app-header-mount"></div>
+
+  <main class="screen">
+    <div id="trial-banner-mount"></div>
+
+    <div class="hero" id="home-hero">
+      <div class="hero-eyebrow">Loading…</div>
+      <h1>Welcome to Momsly</h1>
+    </div>
+
+    <div class="hero-illustration-card">
+      <div class="hero-illustration-card__stage">
+        <div class="hero-illustration-card__glow hero-illustration-card__glow--1"></div>
+        <div class="hero-illustration-card__glow hero-illustration-card__glow--2"></div>
+        <img src="assets/images/hero-mom-baby.png" alt="Mother holding her sleeping baby">
+      </div>
+    </div>
+
+    <div class="hero-stats-card" id="hero-stats-card"></div>
+
+    <div class="quick-actions" id="quick-actions"></div>
+
+    <div class="section" id="calendar-section">
+      <div class="section-head"><h2>Log Calendar</h2></div>
+      <div id="calendar-mount"></div>
+    </div>
+
+    <div class="section" id="growth-trends-section">
+      <div class="section-head"><h2>Growth Trends</h2><a class="link" href="tracker.html?tab=weight">Tracker</a></div>
+      <div class="growth-trends-grid">
+        <a href="tracker.html?tab=weight" class="card chart-card growth-trend-card" style="text-decoration:none;color:inherit;">
+          <div class="chart-card__head">
+            <span class="chart-card__icon" id="home-weight-icon"></span>
+            <h2>Weight</h2>
+          </div>
+          <div class="growth-trend-latest" id="home-weight-latest"></div>
+          <canvas id="home-weight-chart"></canvas>
+        </a>
+        <a href="tracker.html?tab=height" class="card chart-card growth-trend-card" style="text-decoration:none;color:inherit;">
+          <div class="chart-card__head">
+            <span class="chart-card__icon" id="home-height-icon"></span>
+            <h2>Height</h2>
+          </div>
+          <div class="growth-trend-latest" id="home-height-latest"></div>
+          <canvas id="home-height-chart"></canvas>
+        </a>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-head"><h2>Upcoming Reminders</h2><a class="link" href="tools.html#reminders">See all</a></div>
+      <div id="today-summary"></div>
+    </div>
+
+    <div class="section">
+      <div class="section-head"><h2>Baby Expenses</h2></div>
+      <div id="baby-expenses-section"></div>
+    </div>
+
+    <div class="section" id="daily-tip"></div>
+
+    <div class="section">
+      <div class="section-head">
+        <h2>Featured tools</h2>
+        <a class="link" href="tools.html">See all</a>
+      </div>
+      <div class="tool-grid" id="recent-tools"></div>
+    </div>
+  </main>
+
+  <div id="bottom-nav-mount"></div>
+</div>
+
+<!-- Today item detail sheet -->
+<div class="overlay" id="sheet-today-detail">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-head"><h2 id="today-detail-title">Details</h2><button class="icon-btn" data-close-sheet></button></div>
+    <div id="today-detail-body"></div>
+  </div>
+</div>
+
+<script defer src="js/utils.js"></script>
+<script defer src="js/storage.js"></script>
+<script defer src="js/icons.js"></script>
+<script defer src="js/data.js"></script>
+<script defer src="js/ui.js"></script>
+<script defer src="js/components.js"></script>
+<script defer src="js/calendar.js"></script>
+<script defer src="js/auth.js"></script>
+<script defer src="js/notification.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script defer src="js/supabase-client.js"></script>
+<script defer src="js/push.js"></script>
+<script defer src="js/scheduler.js"></script>
+<script defer src="js/feeding.js"></script>
+<script defer src="js/sleep.js"></script>
+<script defer src="js/charts.js"></script>
+<script defer src="js/export.js"></script>
+<script defer src="js/share.js"></script>
+<script defer src="js/backup.js"></script>
+<script defer src="js/logic.js"></script>
+<script defer src="js/milestones.js"></script>
+<script defer src="js/tools.js"></script>
+<script defer src="js/tracker.js"></script>
+<script defer src="js/pages.js"></script>
+<script defer src="js/app.js"></script>
+<script defer src="js/router.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    (async () => {
+      await Auth.init();
+      App.mountShell({ title: 'Momsly', activeHref: 'index.html' });
+      HomePage.init();
+    })();
+});
+</script>
+</body>
+</html>

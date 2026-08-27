@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Memory Book Demo</title>
+<meta name="theme-color" content="#F472B6">
+<link rel="icon" href="assets/icons/icon-192.png">
+<link rel="stylesheet" href="css/theme.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+<div class="app-shell">
+  <div id="app-header-mount"></div>
+  <main class="screen">
+    <div class="section-head"><h2>Memory Book Demo</h2></div>
+    <p class="subtext" style="margin-bottom:16px;">Tap the button below to open the album.</p>
+    <button class="btn btn--primary" id="open-book-btn">Open Memory Book</button>
+  </main>
+  <div id="bottom-nav-mount"></div>
+</div>
+
+<div class="overlay" id="sheet-photo-memories">
+  <div class="sheet">
+    <div class="sheet-handle no-print"></div>
+    <div class="sheet-head no-print"><h2>Memory Book</h2><button class="icon-btn" data-close-sheet></button></div>
+
+    <label class="btn btn--secondary no-print" id="photo-add-label" style="display:block;text-align:center;margin-bottom:16px;cursor:pointer;">
+      Add a Photo <input type="file" id="photo-input" accept="image/*" style="display:none;">
+    </label>
+
+    <div class="photo-caption-form no-print" id="photo-caption-form" style="display:none;">
+      <div class="photo-caption-preview"><img id="photo-caption-preview-img" alt=""></div>
+      <div class="field"><label>Title this memory</label><input type="text" id="photo-caption-input" placeholder="First smile" required></div>
+      <div class="field"><label>Description (optional)</label><textarea id="photo-desc-input" placeholder="Tell the story behind this one..."></textarea></div>
+      <div style="display:flex;gap:10px;">
+        <button class="btn btn--secondary" type="button" id="photo-caption-cancel">Cancel</button>
+        <button class="btn btn--primary" type="button" id="photo-caption-save">Save to Album</button>
+      </div>
+    </div>
+
+    <div id="memory-book-mount"></div>
+  </div>
+</div>
+
+<script src="js/utils.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/icons.js"></script>
+<script src="js/data.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/components.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+<script src="js/memorybook.js"></script>
+<script src="js/app.js"></script>
+<script>
+  // Demo page: actively disarm any previously-registered service worker
+  // for this origin so it can never serve stale cached CSS/JS while
+  // we're iterating on the design — and stop app.js (loaded below) from
+  // re-registering one.
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then(regs => regs.forEach(r => r.unregister()));
+    navigator.serviceWorker.register = () => Promise.resolve({ unregister() { return Promise.resolve(true); } });
+  }
+  if (window.caches) { caches.keys().then(keys => keys.forEach(k => caches.delete(k))); }
+
+  Storage.reset();
+  const childId = 'demo-child';
+  Storage.set('children', [{ id: childId, name: 'Baby Ava', dob: '2025-06-01', sex: 'f' }]);
+  Storage.set('activeChildId', childId);
+
+  const img = 'assets/images/hero-mom-baby.png';
+  const now = new Date();
+  const day = (n) => { const d = new Date(now); d.setDate(d.getDate() - n); return d.toISOString(); };
+  Storage.set('photos', [
+    { id: Utils.uid(), childId, url: img, caption: 'First smile', description: 'Right after her morning feed, out of nowhere — the whole room melted.', date: day(30) },
+    { id: Utils.uid(), childId, url: img, caption: 'Standing', description: 'Held onto the couch for almost ten whole seconds before plopping down laughing.', date: day(20) },
+    { id: Utils.uid(), childId, url: img, caption: 'First tooth', description: 'Bottom left, right on schedule. So many bitten fingers this week.', date: day(10) },
+    { id: Utils.uid(), childId, url: img, caption: 'Beach day', description: 'Hated the sand, loved the waves. Slept the whole ride home.', date: day(2) },
+    { id: Utils.uid(), childId, url: img, caption: 'Sound asleep', date: day(0) },
+  ]);
+
+  App.mountShell({ title: 'Demo', activeHref: '' });
+  MemoryBook.init();
+  document.getElementById('open-book-btn').addEventListener('click', () => UI.openSheet('sheet-photo-memories'));
+  UI.openSheet('sheet-photo-memories');
+</script>
+</body>
+</html>
