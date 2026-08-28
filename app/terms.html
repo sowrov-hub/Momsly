@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Terms of Service — Momsly</title>
+<meta name="theme-color" content="#F472B6">
+<link rel="icon" href="assets/icons/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,500&family=Caveat:wght@600;700&display=swap">
+<link rel="stylesheet" href="css/theme.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+<div class="app-shell">
+  <div id="app-header-mount"></div>
+  <main class="screen doc-page">
+    <h1>Terms of Service</h1>
+    <p class="updated">Last updated: August 2026</p>
+
+    <h2>Acceptance of terms</h2>
+    <p>By creating an account or using Momsly, you agree to these terms. If you don't agree, please don't use the app.</p>
+
+    <h2>Not medical advice</h2>
+    <p>Momsly is a parenting organization and tracking tool. Daily tips, AI-generated schedules, and growth charts are general guidance only and are not a substitute for advice from your pediatrician or another qualified healthcare provider. Always consult a doctor for medical concerns about your child.</p>
+
+    <h2>Free trial & Lifetime Premium</h2>
+    <p>New accounts include a 7-day free trial of Momsly's premium features. After the trial ends, premium features are locked until you purchase Lifetime Premium through the linked Gumroad checkout. Lifetime Premium is a one-time purchase tied to your local unlock on the device(s) you activate it on.</p>
+
+    <h2>Your data & device storage</h2>
+    <p>Momsly stores your data locally on your device with no backend server. You are responsible for backing up your data (Profile → Backup) before clearing browser storage, switching browsers, or resetting your device.</p>
+
+    <h2>Acceptable use</h2>
+    <p>You agree not to misuse Momsly, attempt to disrupt its operation, or use it for any unlawful purpose.</p>
+
+    <h2>No warranty</h2>
+    <p>Momsly is provided "as is" without warranties of any kind. We do not guarantee that reminders, timers, or notifications will fire with perfect reliability in every browser or device state — please use judgment for anything time-sensitive or safety-critical.</p>
+
+    <h2>Limitation of liability</h2>
+    <p>To the fullest extent permitted by law, Momsly and its developer are not liable for any damages arising from your use of the app, including data loss from local storage being cleared.</p>
+
+    <h2>Changes to these terms</h2>
+    <p>We may update these terms from time to time. Continued use of Momsly after changes means you accept the updated terms.</p>
+
+    <h2>Contact</h2>
+    <p>Questions about these terms can be sent via the contact link on the Momsly Gumroad page.</p>
+  </main>
+  <div id="bottom-nav-mount"></div>
+</div>
+
+<script defer src="js/utils.js"></script>
+<script defer src="js/storage.js"></script>
+<script defer src="js/icons.js"></script>
+<script defer src="js/data.js"></script>
+<script defer src="js/ui.js"></script>
+<script defer src="js/components.js"></script>
+<script defer src="js/auth.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script defer src="js/supabase-client.js"></script>
+<script defer src="js/app.js"></script>
+<script defer src="js/router.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    (async () => {
+      await Auth.init();
+      App.mountShell({ title: 'Terms of Service', activeHref: '', showBack: true, backHref: Auth.isLoggedIn() ? 'profile.html' : 'signup.html' });
+    })();
+});
+</script>
+</body>
+</html>
