@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Profile — Momsly</title>
+<meta name="theme-color" content="#F472B6">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="assets/icons/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,500&family=Caveat:wght@600;700&display=swap">
+<link rel="stylesheet" href="css/theme.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+<div class="app-shell">
+  <div id="app-header-mount"></div>
+
+  <main class="screen">
+    <div class="profile-header" id="profile-header"></div>
+
+    <div class="section" id="trial-banner-mount"></div>
+
+    <div class="section">
+      <div class="section-head"><h2>Children</h2><a class="link" href="#" id="add-child-btn">+ Add</a></div>
+      <div id="children-list"></div>
+    </div>
+
+    <div class="section">
+      <div class="section-head"><h2>Baby Details</h2><a class="link" href="tracker.html">Log new</a></div>
+      <div id="baby-details"></div>
+    </div>
+
+    <div class="section">
+      <div class="section-head"><h2>Preferences</h2></div>
+      <div class="card settings-list">
+        <div class="settings-item"><span>Dark Mode</span>
+          <label class="switch"><input type="checkbox" id="setting-dark-mode"><span class="track"></span></label>
+        </div>
+        <div class="settings-item"><span>Notifications</span>
+          <label class="switch"><input type="checkbox" id="setting-notifications"><span class="track"></span></label>
+        </div>
+      </div>
+      <p class="field-hint" id="push-status-hint" style="margin-top:8px;"></p>
+    </div>
+
+    <div class="section" id="export">
+      <div class="section-head"><h2>Data & Reports</h2></div>
+      <div class="card settings-list">
+        <button class="settings-item" id="export-csv" style="width:100%;background:none;border:none;text-align:left;"><span>Export CSV</span><span class="chev"></span></button>
+        <button class="settings-item" id="export-pdf" style="width:100%;background:none;border:none;text-align:left;"><span>Export PDF Report</span><span class="chev"></span></button>
+        <button class="settings-item" id="share-summary" style="width:100%;background:none;border:none;text-align:left;"><span>Share Today's Summary</span><span class="chev"></span></button>
+      </div>
+    </div>
+
+    <div class="section" id="backup">
+      <div class="section-head"><h2>Backup</h2></div>
+      <div class="card settings-list">
+        <button class="settings-item" id="backup-export" style="width:100%;background:none;border:none;text-align:left;"><span>Download Backup</span><span class="chev"></span></button>
+        <label class="settings-item" style="width:100%;cursor:pointer;"><span>Restore from Backup</span><span class="chev"></span>
+          <input type="file" id="backup-import" accept="application/json" style="display:none;">
+        </label>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-head"><h2>About</h2></div>
+      <div class="card settings-list">
+        <a class="settings-item" href="privacy.html"><span>Privacy Policy</span><span class="chev"></span></a>
+        <a class="settings-item" href="terms.html"><span>Terms of Service</span><span class="chev"></span></a>
+        <a class="settings-item" href="upgrade.html"><span>Upgrade to Lifetime Premium</span><span class="chev"></span></a>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="card settings-list">
+        <button class="settings-item" id="reset-data-btn" style="width:100%;background:none;border:none;text-align:left;color:var(--color-danger);"><span>Reset All Data</span></button>
+        <button class="settings-item" id="logout-btn" style="width:100%;background:none;border:none;text-align:left;color:var(--color-danger);"><span>Log Out</span></button>
+      </div>
+    </div>
+
+    <p class="subtext" style="text-align:center;margin-top:20px;">Momsly v1.0 · Made with 💗 for tired moms everywhere</p>
+  </main>
+
+  <div id="bottom-nav-mount"></div>
+</div>
+
+<input type="file" id="avatar-input" accept="image/*" style="display:none;">
+
+<!-- Suggestions for the blood group fields — free text is still allowed,
+     so anything typed that isn't in this list is kept as-is. -->
+<datalist id="blood-groups">
+  <option value="A+"></option><option value="A-"></option>
+  <option value="B+"></option><option value="B-"></option>
+  <option value="AB+"></option><option value="AB-"></option>
+  <option value="O+"></option><option value="O-"></option>
+</datalist>
+
+<!-- Add child sheet -->
+<div class="overlay" id="sheet-add-child">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-head"><h2>Add Child</h2><button class="icon-btn" data-close-sheet></button></div>
+    <form id="add-child-form">
+      <div class="field"><label>Name</label><input type="text" id="child-name" placeholder="Emma" required></div>
+      <div class="field"><label>Date of birth</label><input type="date" id="child-dob" required></div>
+      <div class="field">
+        <label>Sex</label>
+        <select id="child-sex"><option value="unspecified">Prefer not to say</option><option value="female">Girl</option><option value="male">Boy</option></select>
+      </div>
+      <div class="field">
+        <label>Blood group (optional)</label>
+        <input type="text" id="child-blood-group" list="blood-groups" placeholder="O+" autocomplete="off">
+      </div>
+      <button class="btn btn--primary" type="submit">Add Child</button>
+    </form>
+  </div>
+</div>
+
+<script defer src="js/utils.js"></script>
+<script defer src="js/storage.js"></script>
+<script defer src="js/icons.js"></script>
+<script defer src="js/data.js"></script>
+<script defer src="js/ui.js"></script>
+<script defer src="js/components.js"></script>
+<script defer src="js/logedit.js"></script>
+<script defer src="js/skeleton.js"></script>
+<script defer src="js/auth.js"></script>
+<script defer src="js/notification.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script defer src="js/supabase-client.js"></script>
+<script defer src="js/push.js"></script>
+<script defer src="js/scheduler.js"></script>
+<script defer src="js/feeding.js"></script>
+<script defer src="js/sleep.js"></script>
+<script defer src="js/charts.js"></script>
+<script defer src="js/export.js"></script>
+<script defer src="js/share.js"></script>
+<script defer src="js/backup.js"></script>
+<script defer src="js/logic.js"></script>
+<script defer src="js/milestones.js"></script>
+<script defer src="js/tools.js"></script>
+<script defer src="js/tracker.js"></script>
+<script defer src="js/pages.js"></script>
+<script defer src="js/app.js"></script>
+<script defer src="js/router.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  (async () => {
+    App.mountShell({ title: 'Profile', activeHref: 'profile.html' });
+    Skeleton.show('profile');
+    await Auth.init();
+    document.getElementById('trial-banner-mount').innerHTML = App.trialBannerHTML();
+    ProfilePage.init();
+  
+    // --- Profile photo upload (resized client-side before saving to keep
+    // localStorage lean, since large uncompressed photos add up fast) ---
+    function resizeImageFile(file, maxSize = 400) {
+      return new Promise((resolve, reject) => {
+        if (!file.type.startsWith('image/')) { reject(new Error('not an image')); return; }
+        const reader = new FileReader();
+        reader.onload = () => {
+          const img = new Image();
+          img.onload = () => {
+            let { width, height } = img;
+            if (width > height) { if (width > maxSize) { height = Math.round(height * (maxSize / width)); width = maxSize; } }
+            else { if (height > maxSize) { width = Math.round(width * (maxSize / height)); height = maxSize; } }
+            const canvas = document.createElement('canvas');
+            canvas.width = width; canvas.height = height;
+            canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+            resolve(canvas.toDataURL('image/jpeg', 0.85));
+          };
+          img.onerror = () => reject(new Error('image failed to load'));
+          img.src = reader.result;
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+  
+    document.getElementById('profile-header').addEventListener('click', (e) => {
+      if (e.target.closest('#avatar-edit-btn')) {
+        document.getElementById('avatar-input').click();
+      }
+      if (e.target.closest('#remove-avatar-btn')) {
+        ProfilePage.removePhoto();
+        UI.toast('Profile photo removed.');
+      }
+    });
+  
+    document.getElementById('avatar-input').addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      e.target.value = ''; // allow re-selecting the same file later
+      if (!file) return;
+      try {
+        const dataUrl = await resizeImageFile(file, 400);
+        ProfilePage.setPhoto(dataUrl);
+        UI.toast('Profile photo updated.', 'success');
+      } catch (err) {
+        UI.toast("Couldn't load that photo — try a different file.", 'error');
+      }
+    });
+  
+    // Fill in icons that were left as empty placeholders in the markup above
+    const iconMap = [
+      ['#setting-dark-mode', null], // handled separately (switch, not icon slot)
+    ];
+    document.querySelectorAll('.settings-item').forEach(item => {
+      if (item.querySelector('svg')) return;
+    });
+  
+    document.getElementById('add-child-btn').addEventListener('click', (e) => { e.preventDefault(); UI.openSheet('sheet-add-child'); });
+    document.getElementById('add-child-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('child-name').value.trim();
+      const dob = document.getElementById('child-dob').value;
+      const sex = document.getElementById('child-sex').value;
+      const bloodGroup = document.getElementById('child-blood-group').value.trim();
+      if (!name || !dob) return;
+      ProfilePage.addChild({ name, dob, sex, bloodGroup });
+      e.target.reset();
+      UI.closeSheet('sheet-add-child');
+      UI.toast(`${name} added! 💗`, 'success');
+    });
+  
+    document.getElementById('export-csv').addEventListener('click', () => Exporter.downloadCSV());
+    document.getElementById('export-pdf').addEventListener('click', () => Exporter.openPDFReport());
+    document.getElementById('share-summary').addEventListener('click', () => {
+      const children = Storage.get('children') || [];
+      const child = children.find(c => c.id === Storage.get('activeChildId')) || children[0];
+      if (!child) { UI.toast('Add a child profile first.', 'error'); return; }
+      const feed = Feeding.todaySummary(child.id);
+      const sleep = Sleep.todaySummary(child.id);
+      Share.shareSummary(child.name, `${feed.count} feeds, ${Utils.durationLabel(sleep.totalMs)} of sleep so far today.`);
+    });
+  
+    document.getElementById('backup-export').addEventListener('click', () => Backup.exportJSON());
+    document.getElementById('backup-import').addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) Backup.importJSON(file).then(() => setTimeout(() => window.location.reload(), 800));
+    });
+  
+    document.getElementById('reset-data-btn').addEventListener('click', () => Backup.resetAllData());
+    document.getElementById('logout-btn').addEventListener('click', async () => {
+      const ok = await UI.confirmDialog({ title: 'Log out?', message: 'Your data stays saved on this device for next time.', confirmLabel: 'Log Out' });
+      if (ok) await Auth.logout();
+    });
+  
+    // Inject icons into settings rows (kept out of raw template to avoid clutter above)
+    const rows = document.querySelectorAll('.settings-item');
+    const rowIcons = ['moon', 'bell', 'download', 'fileText', 'share', 'upload', 'upload', 'shield', 'fileText', 'crown', 'trash', 'logout'];
+    rows.forEach((row, i) => {
+      if (rowIcons[i] && !row.querySelector('svg')) {
+        row.insertAdjacentHTML('afterbegin', Icons[rowIcons[i]]);
+      }
+    });
+    document.querySelectorAll('.chev').forEach(c => c.innerHTML = Icons.chevronRight);
+  })();
+});
+</script>
+</body>
+</html>
