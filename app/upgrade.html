@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Unlock All Tools — Momsly</title>
+<meta name="theme-color" content="#F472B6">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="assets/icons/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,500&family=Caveat:wght@600;700&display=swap">
+<link rel="stylesheet" href="css/theme.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+<div class="app-shell" id="upgrade-shell">
+  <div id="app-header-mount"></div>
+
+  <div class="upgrade-hero">
+    <div class="crown-icon"></div>
+    <h1>Unlock All Tools</h1>
+    <p id="upgrade-hero-sub">One payment. Every tool in Momsly, forever.</p>
+  </div>
+
+  <main class="screen">
+    <div class="section">
+      <div class="card pricing-card">
+        <div class="eyebrow">Lifetime access</div>
+        <div class="price-amount">Lifetime<br><span>one payment, no renewals</span></div>
+
+        <div class="benefit-list" style="margin-top:var(--space-lg);text-align:left;">
+          <div class="benefit-item">
+            <div class="benefit-check"></div>
+            <div><h4>All <span id="tool-count">19</span> tools unlocked</h4></div>
+          </div>
+          <div class="benefit-item">
+            <div class="benefit-check"></div>
+            <div><h4>Every tracker, timer and reminder</h4></div>
+          </div>
+          <div class="benefit-item">
+            <div class="benefit-check"></div>
+            <div><h4>Growth, medicine &amp; vaccination records</h4></div>
+          </div>
+          <div class="benefit-item">
+            <div class="benefit-check"></div>
+            <div><h4>Memory Book, PDF &amp; CSV export</h4></div>
+          </div>
+        </div>
+
+        <a id="upgrade-cta" href="https://momslyapp.gumroad.com/l/momsly?wanted=true" target="_blank" rel="noopener" class="btn btn--primary" style="margin-top:var(--space-lg);">
+          Unlock All Tools
+        </a>
+        <button class="btn btn--ghost" id="dev-unlock" style="margin-top:var(--space-xs);font-size:var(--fs-sm);">Already purchased? Enter your access code</button>
+      </div>
+    </div>
+
+    <div class="section" style="text-align:center;">
+      <p class="subtext">
+        <a href="terms.html" style="color:var(--color-primary);font-weight:600;">Terms</a> &middot;
+        <a href="privacy.html" style="color:var(--color-primary);font-weight:600;">Privacy</a>
+        <span id="logout-link-wrap" style="display:none;"> &middot; <a href="#" id="upgrade-logout" style="color:var(--color-subtext);font-weight:600;">Log out</a></span>
+      </p>
+    </div>
+  </main>
+
+  <div id="bottom-nav-mount"></div>
+</div>
+
+<!-- Access code sheet -->
+<div class="overlay" id="sheet-access-code">
+  <div class="sheet" style="text-align:center;">
+    <div class="sheet-handle"></div>
+    <div class="sheet-head"><h2>Enter Access Code</h2><button class="icon-btn" data-close-sheet></button></div>
+    <p class="subtext" style="margin-bottom:16px;">Enter the access code from your purchase confirmation to unlock every tool on this device.</p>
+    <form id="access-code-form">
+      <div class="field" style="text-align:left;">
+        <label for="access-code-input">Access code</label>
+        <input type="text" id="access-code-input" placeholder="Enter your code" autocomplete="off" autocapitalize="characters" required>
+        <div class="field-error" id="access-code-error"></div>
+      </div>
+      <button class="btn btn--primary" type="submit">Unlock All Tools</button>
+    </form>
+  </div>
+</div>
+
+<script defer src="js/utils.js"></script>
+<script defer src="js/storage.js"></script>
+<script defer src="js/icons.js"></script>
+<script defer src="js/data.js"></script>
+<script defer src="js/ui.js"></script>
+<script defer src="js/components.js"></script>
+<script defer src="js/auth.js"></script>
+<script defer src="js/notification.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script defer src="js/supabase-client.js"></script>
+<script defer src="js/push.js"></script>
+<script defer src="js/scheduler.js"></script>
+<script defer src="js/app.js"></script>
+<script defer src="js/router.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  (async () => {
+    await Auth.init();
+
+    // When the trial has run out the whole app is locked and every other
+    // page redirects here, so this page must not offer a way back into
+    // it: no bottom nav, no back arrow, no reminders shortcut. The only
+    // ways out are unlocking, or logging out.
+    const locked = Auth.isLocked();
+
+    if (locked) {
+      document.getElementById('bottom-nav-mount')?.remove();
+      document.getElementById('upgrade-shell').classList.add('app-shell--no-nav');
+      document.getElementById('logout-link-wrap').style.display = 'inline';
+    }
+
+    App.mountShell({
+      title: 'Upgrade',
+      activeHref: '',
+      showBack: !locked,
+      backHref: 'index.html'
+    });
+
+    if (locked) {
+      document.querySelector('.app-header__actions [aria-label="Reminders"]')?.remove();
+    }
+
+    document.querySelector('.crown-icon').innerHTML = Icons.crown;
+    document.querySelectorAll('.benefit-check').forEach(el => el.innerHTML = Icons.check);
+    document.getElementById('tool-count').textContent = Data.TOOLS.length;
+
+    const info = Auth.trialInfo();
+    document.getElementById('upgrade-hero-sub').textContent = info.isPremium
+      ? 'Every tool is unlocked. Thank you for supporting Momsly!'
+      : info.expired
+        ? 'Your 3-day free trial has ended. Unlock Momsly to keep using it.'
+        : `${info.daysLeft} day${info.daysLeft === 1 ? '' : 's'} left in your free trial.`;
+
+    if (info.isPremium) {
+      document.getElementById('upgrade-cta').style.display = 'none';
+      document.getElementById('dev-unlock').style.display = 'none';
+    }
+
+    document.getElementById('upgrade-logout')?.addEventListener('click', async (e) => {
+      e.preventDefault();
+      await Auth.logout();
+    });
+
+    // Access-code unlock for anyone who purchased via the Gumroad link.
+    // Checked here in the page — the simple, no-backend setup. Note this
+    // means the code is readable in view-source.
+    const ACCESS_CODE = 'MOMSLY-9WVFBD9N';
+    document.getElementById('dev-unlock')?.addEventListener('click', () => {
+      document.getElementById('access-code-form').reset();
+      document.getElementById('access-code-input').closest('.field').classList.remove('has-error');
+      UI.openSheet('sheet-access-code');
+      setTimeout(() => document.getElementById('access-code-input').focus(), 150);
+    });
+
+    document.getElementById('access-code-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const input = document.getElementById('access-code-input');
+      const field = input.closest('.field');
+      const entered = input.value.trim().toUpperCase();
+
+      if (entered === ACCESS_CODE) {
+        field.classList.remove('has-error');
+        const result = await Auth.activatePremium();
+        if (!result.ok) { UI.toast(result.error || 'Could not unlock — please try again.', 'error'); return; }
+        UI.closeSheet('sheet-access-code');
+        UI.toast('All tools unlocked!', 'success');
+        setTimeout(() => window.location.href = 'index.html', 1000);
+      } else {
+        field.classList.add('has-error');
+        document.getElementById('access-code-error').textContent = 'That code does not match — double-check your purchase confirmation.';
+        UI.toast('Incorrect access code.', 'error');
+      }
+    });
+  })();
+});
+</script>
+</body>
+</html>
